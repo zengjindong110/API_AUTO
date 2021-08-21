@@ -1,27 +1,26 @@
-# coding=gbk
+#!/usr/bin/python
+# -*- coding: gbk -*-
+
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import config
+from get_config_data import GetConfig
 
-"""
-发送邮件模块
-"""
+config = GetConfig("base")
+get_config = config.get_config_data("email")
 
-
-# 发送邮件
 def send_email():
-    s = smtplib.SMTP_SSL(config.mail_host, 465, timeout=5)
-    s.login(config.mail_user, config.mail_pwd)
+    s = smtplib.SMTP_SSL(get_config["mail_host"], 465, timeout=5)
+    s.login(get_config["mail_user"], get_config["mail_pwd"])
 
-    # 邮件内容
-    mail = config.content
+    mail = get_config["content"]
     msg = MIMEMultipart()
     msgtext = MIMEText(mail.encode('utf8'), _subtype='html', _charset='utf8')
-    msg['From'] = config.mail_user
-    msg['Subject'] = config.subject
-    msg['To'] = ",".join(config.to_list)
-    unpatch = "./report/test_report.html"
+    msg['From'] = get_config["mail_user"]
+    msg['Subject'] = get_config["subject"]
+    # msg['To'] = ",".join(get_config["to_list"])
+    msg['To'] = get_config["to_list"]
+    unpatch = "../report/test_report.html"
     if unpatch is not None:
         file = open(unpatch, 'rb').read()
         att1 = MIMEText(file, 'base64', "utf-8")
@@ -30,7 +29,7 @@ def send_email():
         msg.attach(att1)
     msg.attach(msgtext)
     try:
-        s.sendmail(config.mail_user, config.to_list, msg.as_string())
+        s.sendmail(get_config["mail_user"], get_config["to_list"], msg.as_string())
         s.close()
 
     except Exception as e:

@@ -56,5 +56,5 @@ def get_verify_code(image_url):
 
 
 if __name__ == '__main__':
-    x = get_verify_code("https://order.lbdj.com/lbdj/web/user/loginverify?v=0.6836869490327788&u=yKHDtuP2")
+    x = get_verify_code("https://agent-test.yiye.ai/api/v1/ucenter/captchas/fetch/graphic?captchaKey=867f0376")
     print(x)

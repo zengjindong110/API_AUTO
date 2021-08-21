@@ -1,5 +1,4 @@
 # coding=gbk
-# coding=gbk
 
 import unittest
 from common.get_verification_code import *
@@ -21,7 +20,7 @@ class TestUserLogin(unittest.TestCase):
 
     def test_saveOrder(self):  # 函数名要以test开头，否则不会被执行
         """平台端用户账号密码登陆"""
-        login_data = get_request_data("/lbdj/web/user/login")[0]
+        login_data = get_request_data("dfasdfasdf")[0]
 
         image_url = "{}/lbdj/web/user/loginverify?v=0.2705254559664316&u=omUm1iyj".format(
             config.environment["test"]["gateway"])
