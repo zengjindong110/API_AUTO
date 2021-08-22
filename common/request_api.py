@@ -1,4 +1,4 @@
-# coding=gbk
+# coding=utf-8
 import requests
 import config
 import json
@@ -36,16 +36,16 @@ class RequestApi(GetConfig):
             except KeyError as e:
                 raise KeyError() from e
 
-            print("请求方式：{}  请求地址：{}  请求参数：{}  返回参数：{}".format(method, request_url, request_data.replace("\n", ""),
+            print("璇锋眰鏂瑰紡锛歿}  璇锋眰鍦板潃锛歿}  璇锋眰鍙傛暟锛歿}  杩斿洖鍙傛暟锛歿}".format(method, request_url, request_data.replace("\n", ""),
                                                               res.text))
             logger.info(
-                "请求方式：{}  请求地址：{}  请求参数：{}  返回参数：{}".format(method, request_url, request_data.replace("\n", ""),
+                "璇锋眰鏂瑰紡锛歿}  璇锋眰鍦板潃锛歿}  璇锋眰鍙傛暟锛歿}  杩斿洖鍙傛暟锛歿}".format(method, request_url, request_data.replace("\n", ""),
                                                             res.text))
             return res
         elif method.lower() in ["get", "delete"]:
             res = requests.request(method, url=request_url,
                                    headers=self.header, params=request_data, timeout=config.timeout)
-            logger.info("请求方式：{}请求地址：{}请求参数：{}".format(method, request_url, request_data))
+            logger.info("璇锋眰鏂瑰紡锛歿}璇锋眰鍦板潃锛歿}璇锋眰鍙傛暟锛歿}".format(method, request_url, request_data))
             return res
 
 

@@ -1,5 +1,3 @@
-import time
-
 import pymysql
 import threading
 from common.get_config_data import GetConfig

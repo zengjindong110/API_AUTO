@@ -1,4 +1,4 @@
-# coding=gbk
+# coding=utf-8
 import unittest
 from BeautifulReport import BeautifulReport
 import os
@@ -9,11 +9,11 @@ import sys
 source_route = os.getcwd() + "/report"
 
 """
-Íâ²¿´«²Î²»´«²ÎÄ¬ÈÏÎªtest»·¾³
-´«²Î£º
-test Îª²âÊÔ»·¾³
-pre  ÎªÔ¤·¢»·¾³
-prod ÎªÏßÉÏ»·¾³    
+å¤–éƒ¨ä¼ å‚ä¸ä¼ å‚é»˜è®¤ä¸ºtestç¯å¢ƒ
+ä¼ å‚ï¼š
+test ä¸ºæµ‹è¯•ç¯å¢ƒ
+pre  ä¸ºé¢„å‘ç¯å¢ƒ
+prod ä¸ºçº¿ä¸Šç¯å¢ƒ    
 """
 
 

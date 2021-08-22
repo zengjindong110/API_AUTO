@@ -2,6 +2,7 @@ import os
 import configparser
 import inspect
 
+
 # 重写获取配置文件的方法,让读取出来的内容变为大写的
 class MyConf(configparser.ConfigParser):
     def __init__(self, defaults=None):
@@ -17,7 +18,7 @@ class GetConfig(object):
     返回字典
     """
 
-    def __init__(self,file_name="config"):
+    def __init__(self, file_name="config"):
         # 获取当前文件的路径
         current_file_name = inspect.getfile(inspect.currentframe())
         # 获取当前文件的父级目录

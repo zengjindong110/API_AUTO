@@ -8,52 +8,59 @@ import inspect
 # 获取当前文件的路径
 current_file_name = inspect.getfile(inspect.currentframe())
 # 获取当前文件的父级目录
-current_path = os.path.dirname(current_file_name)
-current_path = os.path.dirname(current_path) + "/config"
+# os.path.dirname(current_file_name) 为获取当前路径下面的父级路径
+current_path = os.path.dirname(os.path.dirname(current_file_name)) + "/config"
 
-print(current_path)
-
-token = ""
+TOKEN = ""
 
 get_config = GetConfig(current_path)
 
 gateway = get_config.get_config_data("GATEWAY")["AGENT_HOST"]
 
-headers = {
-    'Host': 'agent.yiye.ai',
-    'sec-ch-ua': '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'Accept': 'application/json, text/plain, */*',
-}
 
-captchaValue = get_verify_code(gateway + "/api/v1/ucenter/captchas/fetch/graphic?captchaKey=7de649d9")
+class GetToken(object):
+    def __init__(self):
+        self.header = {
+            'Host': 'agent.yiye.ai',
+            'sec-ch-ua': '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json, text/plain, */*',
+        }
 
-verify_code = str(json.loads(captchaValue["RspData"])["result"])
+    @staticmethod
+    def get_verify_code():
 
+        def get_code():
 
-def login_asp():
-    url = gateway + "/api/v1/ucenter/sessions/action/login"
-    if len(verify_code) == 4 and verify_code.isdigit():
+            captcha_value = get_verify_code(gateway + "/api/v1/ucenter/captchas/fetch/graphic?captchaKey=7de649d9")
+
+            code = str(json.loads(captcha_value["RspData"])["result"])
+            return code
+
+        # 如果验证码不是数字和长度不是四位就再次执行
+        for i in range(3):
+            verify_code = get_code()
+            if len(verify_code) == 4 and verify_code.isdigit():
+                return verify_code
+            else:
+                continue
+
+    def login_asp(self):
+        url = gateway + "/api/v1/ucenter/sessions/action/login"
+
         requests_data = {
             'loginKey': 'yiye_agent_test@yiye.ai',
             'password': '111111',
             'captchaType': 'GRAPHIC',
             'captchaKey': '7de649d9',
-            'captchaValue': str(verify_code),
+            'captchaValue': str(self.get_verify_code()),
             'rememberMe': 'true'
         }
-
-        return requests.post(url=url, data=requests_data).json()
-
-    else:
-        captchaValue = get_verify_code(gateway + "/api/v1/ucenter/captchas/fetch/graphic?captchaKey=7de649d9")
+        respond = requests.post(url=url, data=requests_data).json()
+        print(respond)
+        return respond
 
 
-token = login_asp()
-for i in range(3):
-    if "token" in token.keys():
-        token = token
-    else:
-        token = login_asp()
-
-print(token)
+if __name__ == '__main__':
+    g = GetToken()
+    g.login_asp()

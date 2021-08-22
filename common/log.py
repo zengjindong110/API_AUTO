@@ -1,4 +1,4 @@
-# coding=gbk
+# coding=utf-8
 import logging
 import os
 import time
@@ -17,40 +17,40 @@ class Log(object):
         self.__logger.setLevel(level=logging.INFO)
 
     # def __ini_handler(self):
-    #     """³õÊ¼»¯handler"""
+    #     """åˆå§‹åŒ–handler"""
     #     stream_handler = logging.StreamHandler()
     #     file_handler = logging.FileHandler(self.__path, encoding='utf-8')
     #     return stream_handler, file_handler
     def __ini_handler(self):
-        """³õÊ¼»¯handler"""
+        """åˆå§‹åŒ–handler"""
         self.__logger.handlers.clear()
         stream_handler = logging.StreamHandler()
         file_handler = logging.FileHandler(self.__path, encoding='utf-8')
         return stream_handler, file_handler
 
     def __set_handler(self, stream_handler, file_handler, level='DEBUG'):
-        """ÉèÖÃhandler¼¶±ğ²¢Ìí¼Óµ½loggerÊÕ¼¯Æ÷"""
+        """è®¾ç½®handlerçº§åˆ«å¹¶æ·»åŠ åˆ°loggeræ”¶é›†å™¨"""
         stream_handler.setLevel(level)
         file_handler.setLevel(level)
         self.__logger.addHandler(stream_handler)
         self.__logger.addHandler(file_handler)
 
     def __set_formatter(self, stream_handler, file_handler):
-        """ÉèÖÃÈÕÖ¾Êä³ö¸ñÊ½"""
+        """è®¾ç½®æ—¥å¿—è¾“å‡ºæ ¼å¼"""
         formatter = logging.Formatter('%(asctime)s-%(name)s-%(filename)s-[line:%(lineno)d]'
-                                      '-%(levelname)s-[ÈÕÖ¾ĞÅÏ¢]: %(message)s',
+                                      '-%(levelname)s-[æ—¥å¿—ä¿¡æ¯]: %(message)s',
                                       datefmt='%a, %d %b %Y %H:%M:%S')
         stream_handler.setFormatter(formatter)
         file_handler.setFormatter(formatter)
 
     def __close_handler(self, stream_handler, file_handler):
-        """¹Ø±Õhandler"""
+        """å…³é—­handler"""
         stream_handler.close()
         file_handler.close()
 
     @property
     def Logger(self):
-        """¹¹ÔìÊÕ¼¯Æ÷£¬·µ»Ølooger"""
+        """æ„é€ æ”¶é›†å™¨ï¼Œè¿”å›looger"""
         stream_handler, file_handler = self.__ini_handler()
         self.__set_handler(stream_handler, file_handler)
         self.__set_formatter(stream_handler, file_handler)

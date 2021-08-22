@@ -1,23 +1,23 @@
-# coding=gbk
-
+# coding=utf-8
 import unittest
-from common.get_request_data import *
+from common.get_request_data import get_request_data
 import warnings
 
 
 
 class TestUserLogin(unittest.TestCase):
 
-    def tearDown(self):  # Ã¿¸öÓÃÀıÔËĞĞÖ®ºóÔËĞĞµÄ
+    def tearDown(self):  # æ¯ä¸ªç”¨ä¾‹è¿è¡Œä¹‹åè¿è¡Œçš„
         pass
 
     @classmethod
-    def tearDownClass(cls):  # ÔÚËùÓĞÓÃÀı¶¼Ö´ĞĞÍêÖ®ºóÔËĞĞµÄ
+    def tearDownClass(cls):  # åœ¨æ‰€æœ‰ç”¨ä¾‹éƒ½æ‰§è¡Œå®Œä¹‹åè¿è¡Œçš„
         warnings.simplefilter('ignore', ResourceWarning)
 
-    def test_saveOrder(self):  # º¯ÊıÃûÒªÒÔtest¿ªÍ·£¬·ñÔò²»»á±»Ö´ĞĞ
-        """Æ½Ì¨¶ËÓÃ»§ÕËºÅÃÜÂëµÇÂ½"""
+    def test_saveOrder(self):  # å‡½æ•°åè¦ä»¥testå¼€å¤´ï¼Œå¦åˆ™ä¸ä¼šè¢«æ‰§è¡Œ
+        """å¹³å°ç«¯ç”¨æˆ·è´¦å·å¯†ç ç™»é™†"""
         login_data = get_request_data("dfasdfasdf")[0]
+        print(login_data)
 
 
 
