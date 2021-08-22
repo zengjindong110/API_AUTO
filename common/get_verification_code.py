@@ -1,17 +1,12 @@
-# coding=gbk
-
-
 import hashlib
 import time
-import json
 import requests
 
-pd_id = "126723"  # 用户中心页可以查询到pd信息
+pd_id = "126723"
 pd_key = "JJD8vbcCsyCKpM5415HoX6HyiSVUE1QR"
-app_id = "326723"  # 开发者分成用的账号，在开发者中心可以查询到
+app_id = "326723"
 app_key = "ozYE3DEtf5Ymvw88SQ45GUd6VBstOFtn"
-# 识别类型，
-# 具体类型可以查看官方网站的价格页选择具体的类型，不清楚类型的，可以咨询客服
+
 pred_type = "30400"
 FATEA_PRED_URL = "http://pred.fateadm.com"
 tm = str(int(time.time()))

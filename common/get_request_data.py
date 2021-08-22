@@ -1,16 +1,19 @@
-# coding=gbk
+# coding=utf8
 
 import csv
 import os
 from typing import List
-import pymysql
-from get_config_data import GetConfig
+from common.connect_db import Connect_Db
+import sys
 
-parent_directory = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-# parent_directory =os.getcwd()
-# ÒÔcsvµÄĞÎÊ½¶ÁÈ¡Êı¾İ
+curPath = os.path.abspath(os.path.dirname(__file__))
+rootPath = os.path.split(curPath)[0]
+sys.path.append(rootPath)
+
+# ä»¥csvçš„å½¢å¼è¯»å–æ•°æ®
 def read_csv() -> List[dict]:
     li = list()
+    parent_directory = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     path = parent_directory + "/test_case/test_api.csv"
     with open(path, 'r') as csvfile:
         reader = csv.reader(csvfile)
@@ -19,18 +22,10 @@ def read_csv() -> List[dict]:
     return li
 
 
-def select_data(sql):
-    get_config = GetConfig(parent_directory)
-    mysql_base = get_config.get_config_data("MYSQL")
-    conn = pymysql.connect(host=mysql_base["HOST"], port=3306, user=mysql_base["USER"],
-                           passwd=mysql_base["PASSWORD"], db=mysql_base["DB"], charset='utf8')
-    cursor = conn.cursor()
-    cursor.execute(sql)
-    return cursor.fetchall()
-
-
-# Á¬½ÓÊı¾İ¿â»ñÈ¡²ÎÊı
+# è¿æ¥æ•°æ®åº“è·å–å‚æ•°
 def get_request_data(uri=None, describe=None):
+    conn = Connect_Db()
+
     li = list()
     if not describe:
         sql = "SELECT `uri`,`method`, `data`,`assert`,`describe` FROM `api_auto_test` WHERE `uri`='{uri}'".format(
@@ -42,7 +37,7 @@ def get_request_data(uri=None, describe=None):
         sql = "SELECT `uri`,`method`, `data`,`assert`,`describe` FROM `api_auto_test` WHERE `uri`='{uri}' and `describe`='{describe}'".format(
             uri=uri, describe=describe)
 
-    for i in select_data(sql):
+    for i in conn.select_data(sql):
         li.append({"uri": i[0], "method": i[1], "data": i[2], "assert": i[3], "describe": i[4]})
     return li
 

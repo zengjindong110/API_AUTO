@@ -3,7 +3,8 @@ import requests
 import config
 import json
 from common.log import *
-from common.get_config_data import *
+from common.get_config_data import GetConfig
+
 
 log = Log(__name__)
 logger = log.Logger
@@ -12,7 +13,7 @@ logger = log.Logger
 # logger = setlogging(__name__)
 
 
-class RequestApi(object):
+class RequestApi(GetConfig):
     def __init__(self):
 
         self.header = {"authorization": None}
@@ -20,7 +21,10 @@ class RequestApi(object):
     def request(self, method, uri, request_data):
 
         # request_url = config.environment["test"]["gateway"] + uri
-        request_url = get_config_data("user")["host"] + uri
+        parent_directory = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+
+        GC = GetConfig(parent_directory)
+        request_url = GC.get_config_data("USER")["HOST"] + uri
         if method.lower() in ["post", "put"]:
             if type(request_data) == dict:
                 request_data = json.dumps(request_data)
@@ -47,4 +51,4 @@ class RequestApi(object):
 
 if __name__ == '__main__':
     r =  RequestApi()
-    r.request(post  )
+    r.request("POST","http://www.baidu.com",{"a":"b"})

@@ -25,7 +25,7 @@ if __name__ == '__main__':
     #     envi = "test"
     # environment["test"] = eval("user_" + envi)
     # worker_environment["test"] = eval("worker_" + envi)
-    test_suite = unittest.defaultTestLoader.discover('./test_case', pattern='test_*.py')
+    test_suite = unittest.defaultTestLoader.discover('./test_case', pattern='test*.py')
     result = BeautifulReport(test_suite)
     result.report(filename='test_report', description='api_test_report', report_dir=source_route)
     # send_email()
