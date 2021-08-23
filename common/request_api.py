@@ -1,7 +1,6 @@
 # coding=utf-8
 import requests
-
-import common
+import config
 import json
 from common.log import *
 from common.get_config_data import GetConfig
@@ -15,33 +14,33 @@ logger = log.Logger
 
 class RequestApi(GetConfig):
     def __init__(self):
-        self.header = {"authorization": dict(common.TOKEN)["token"]}
+        self.header = {"authorization": dict(config.TOKEN)["token"]}
         super(RequestApi, self).__init__(None)
         self.gateway = self.get_config_data("USER")["HOST"]
 
     def request(self, data):
-        data = json.loads(data)
+
         uri = data["uri"]
         method = data["method"]
         request_data = data["data"]
         request_url = self.gateway + uri
         if method.lower() in ["post", "put"]:
             if type(request_data) == dict:
-                request_data = json.dumps(request_data)
-            try:
-                res = requests.request(method, url=request_url,
-                                       headers=self.header, json=json.loads(request_data.replace("\n", "")),
-                                       timeout=30)
 
-            except KeyError as e:
-                raise KeyError() from e
+                try:
+                    res = requests.request(method, url=request_url,
+                                           headers=self.header, json=json.loads(request_data.replace("\n", "")),
+                                           timeout=30)
 
-            print("请求方式：{}  请求地址：{}  请求参数：{}  返回参数：{}".format(method, request_url, request_data.replace("\n", ""),
-                                                              res.text))
-            logger.info(
-                "请求方式：{}  请求地址：{}  请求参数：{}  返回参数：{}".format(method, request_url, request_data.replace("\n", ""),
-                                                            res.text))
-            return res
+                except KeyError as e:
+                    raise KeyError() from e
+
+                print("请求方式：{}  请求地址：{}  请求参数：{}  返回参数：{}".format(method, request_url, request_data.replace("\n", ""),
+                                                                  res.text))
+                logger.info(
+                    "请求方式：{}  请求地址：{}  请求参数：{}  返回参数：{}".format(method, request_url, request_data.replace("\n", ""),
+                                                                res.text))
+                return res
         elif method.lower() in ["get", "delete"]:
             res = requests.request(method, url=request_url,
                                    headers=self.header, params=request_data, timeout=30)

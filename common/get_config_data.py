@@ -37,7 +37,7 @@ class GetConfig(object):
 if __name__ == '__main__':
     path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     print(path)
-    gc = GetConfig(path, "config")
+    gc = GetConfig()
     a = gc.get_config_data("GATEWAY")
     print(a)
     print(a["AGENT_HOST"])
