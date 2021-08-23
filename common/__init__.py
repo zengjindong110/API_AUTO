@@ -59,6 +59,8 @@ class GetToken(object):
         respond = requests.post(url=url, data=requests_data).json()
         print(respond)
         return respond
+    def get_token(self):
+        pass
 
 
 if __name__ == '__main__':
