@@ -5,6 +5,7 @@ import os
 from typing import List
 from common.connect_db import Connect_Db
 
+
 # 以csv的形式读取数据
 def read_csv() -> List[dict]:
     li = list()

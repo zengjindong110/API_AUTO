@@ -59,9 +59,10 @@ class GetToken(object):
         respond = requests.post(url=url, data=requests_data).json()
         print(respond)
         return respond
-    def get_token(self):
-        pass
 
+    def get_token(self):
+        token = self.login_asp()
+        if
 
 if __name__ == '__main__':
     g = GetToken()
