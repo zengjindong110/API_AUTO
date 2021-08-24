@@ -74,5 +74,5 @@ class GetToken(object):
 GetToken()
 #
 # GetToken()
-# print(TOKEN)
+print(TOKEN)
 

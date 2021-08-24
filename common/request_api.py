@@ -42,6 +42,7 @@ class RequestApi(GetConfig):
                                                                 res.text))
                 return res
         elif method.lower() in ["get", "delete"]:
+
             res = requests.request(method, url=request_url,
                                    headers=self.header, params=request_data, timeout=30)
             logger.info("请求方式：{}请求地址：{}请求参数：{}".format(method, request_url, request_data))

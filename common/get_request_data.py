@@ -20,11 +20,16 @@ def get_request_data(uri=None, describe=None):
             uri=uri, describe=describe)
 
     for i in conn.select_data(sql):
-        li.append({"uri": i[0], "method": i[1], "data": json.loads(i[2]), "assert": json.loads(i[2]), "describe": i[4]})
+
+        data = eval(i[2])
+        asserts = eval(i[3])
+
+        li.append({"uri": i[0], "method": i[1], "data": data, "assert": asserts, "describe": i[4]})
+
     return li
 
 
 if __name__ == '__main__':
-    a = get_request_data("/")
+    a = get_request_data("/api/v1/marketing/advertiser-account-groups/collect/list")
     b = json.dumps(a[0])
-    print(b)
+    print(a)

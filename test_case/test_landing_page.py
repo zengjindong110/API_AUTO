@@ -16,7 +16,7 @@ class TestUserLogin(unittest.TestCase):
         warnings.simplefilter('ignore', ResourceWarning)
 
     def test_saveOrder(self):  # 函数名要以test开头，否则不会被执行
-        login_data = get_request_data("/")[0]
+        login_data = get_request_data("/api/v1/marketing/advertiser-account-groups/collect/list")[0]
         r = RequestApi()
         r.request(login_data)
         self.assertEqual(1, 1)
