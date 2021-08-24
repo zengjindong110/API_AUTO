@@ -35,8 +35,8 @@ class RequestApi(GetConfig):
                 except KeyError as e:
                     raise KeyError() from e
 
-                print("请求方式：{}  请求地址：{}  请求参数：{}  返回参数：{}".format(method, request_url, request_data.replace("\n", ""),
-                                                                  res.text))
+                # print("请求方式：{}  请求地址：{}  请求参数：{}  返回参数：{}".format(method, request_url, request_data.replace("\n", ""),
+                #                                                   res.text))
                 logger.info(
                     "请求方式：{}  请求地址：{}  请求参数：{}  返回参数：{}".format(method, request_url, request_data.replace("\n", ""),
                                                                 res.text))
@@ -46,7 +46,7 @@ class RequestApi(GetConfig):
             res = requests.request(method, url=request_url,
                                    headers=self.header, params=request_data, timeout=30)
             logger.info("请求方式：{}请求地址：{}请求参数：{}".format(method, request_url, request_data))
-            print(res.text)
+            # print(res.text)
             return res
 
 

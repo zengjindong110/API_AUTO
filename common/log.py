@@ -16,11 +16,6 @@ class Log(object):
         self.__logger = logging.getLogger()
         self.__logger.setLevel(level=logging.INFO)
 
-    # def __ini_handler(self):
-    #     """初始化handler"""
-    #     stream_handler = logging.StreamHandler()
-    #     file_handler = logging.FileHandler(self.__path, encoding='utf-8')
-    #     return stream_handler, file_handler
     def __ini_handler(self):
         """初始化handler"""
         self.__logger.handlers.clear()
