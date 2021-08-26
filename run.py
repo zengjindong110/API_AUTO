@@ -2,7 +2,7 @@
 import unittest
 from BeautifulReport import BeautifulReport
 import os
-# from common.send_email import send_email
+from common.send_email import send_email
 import sys
 
 
@@ -24,3 +24,4 @@ if __name__ == '__main__':
     result = BeautifulReport(test_suite)
     result.report(filename='test_report', description='api_test_report', report_dir=source_route)
 
+    send_email()

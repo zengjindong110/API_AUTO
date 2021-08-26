@@ -17,6 +17,7 @@ class Connect_Db(object):
         self.lock = threading.Lock()
 
     def __del__(self):
+
         self.connect.close()
         self.cursor.close()
 
@@ -31,6 +32,7 @@ class Connect_Db(object):
         return self.cursor.execute(sql)
 
     def insert_data(self, sql):
+
         """
         执行insert语句插入数据到数据库
         :param sql:
@@ -51,6 +53,7 @@ class Connect_Db(object):
         :param sql:
         :return:
         """
+
         try:
 
             self.execute_sql(sql)
@@ -67,4 +70,3 @@ if __name__ == '__main__':
 
         """INSERT INTO `my_data`.`api_auto_test` (`data`,`assert`, `uri`, `method`, `create_time`, `update_time`, `describe`) VALUES ('{\"aa\":\"vv\"}', 'aasdfasd', 'dfasdfasdf', 'fsdafasdf', '2021-08-14 08:37:31', '2021-08-14 08:37:31', NULL);""")
     print(x)
-

@@ -20,6 +20,7 @@ class RequestApi(GetConfig):
 
     def request(self, data):
 
+        res = ""
         uri = data["uri"]
         method = data["method"]
         request_data = data["data"]
@@ -31,29 +32,29 @@ class RequestApi(GetConfig):
                     res = requests.request(method, url=request_url,
                                            headers=self.header, json=json.loads(request_data.replace("\n", "")),
                                            timeout=30)
-
-                except KeyError as e:
-                    raise KeyError() from e
+                    logger.info(
+                        "请求方式：{}  请求地址：{}  请求参数：{}  返回参数：{}".format(method, request_url, request_data.replace("\n", ""),
+                                                                    res.text))
+                except Exception as e:
+                    logger.warn(e)
 
                 # print("请求方式：{}  请求地址：{}  请求参数：{}  返回参数：{}".format(method, request_url, request_data.replace("\n", ""),
                 #                                                   res.text))
-                logger.info(
-                    "请求方式：{}  请求地址：{}  请求参数：{}  返回参数：{}".format(method, request_url, request_data.replace("\n", ""),
-                                                                res.text))
+
                 return res
         elif method.lower() in ["get", "delete"]:
+            try:
+                res = requests.request(method, url=request_url,
+                                       headers=self.header, params=request_data, timeout=30)
+                logger.info("请求方式：{}请求地址：{}请求参数：{}".format(method, request_url, request_data))
+            except Exception as e:
+                logger.warn(e)
 
-            res = requests.request(method, url=request_url,
-                                   headers=self.header, params=request_data, timeout=30)
-            logger.info("请求方式：{}请求地址：{}请求参数：{}".format(method, request_url, request_data))
-            # print(res.text)
             return res
 
 
 if __name__ == '__main__':
     r = RequestApi()
-    # r.request()
 
-    a = '{"uri": "", "method": "get", "data": {"A": "B"}, "assert": {"A": "B"}, "describe": null}'
+    a = {'page': '1', 'size': '20', 'sort': 'pv', 'order': 'desc', 'name': ''}
     r.request(a)
-

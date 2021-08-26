@@ -4,22 +4,22 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from get_config_data import GetConfig
+from common.get_config_data import GetConfig
 
-config = GetConfig("base")
-get_config = config.get_config_data("email")
+config = GetConfig()
+get_config = config.get_config_data("EMAIL")
 
 def send_email():
-    s = smtplib.SMTP_SSL(get_config["mail_host"], 465, timeout=5)
-    s.login(get_config["mail_user"], get_config["mail_pwd"])
+    s = smtplib.SMTP_SSL(get_config["MAIL_HOST"], 465, timeout=5)
+    s.login(get_config["MAIL_USER"], get_config["MAIL_PWD"])
 
-    mail = get_config["content"]
+    mail = get_config["CONTENT"]
     msg = MIMEMultipart()
     msgtext = MIMEText(mail.encode('utf8'), _subtype='html', _charset='utf8')
-    msg['From'] = get_config["mail_user"]
-    msg['Subject'] = get_config["subject"]
+    msg['From'] = get_config["MAIL_USER"]
+    msg['Subject'] = get_config["SUBJECT"]
     # msg['To'] = ",".join(get_config["to_list"])
-    msg['To'] = get_config["to_list"]
+    msg['To'] = get_config["TO_LIST"]
     unpatch = "../report/test_report.html"
     if unpatch is not None:
         file = open(unpatch, 'rb').read()
