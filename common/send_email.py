@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 import smtplib
@@ -6,8 +5,9 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from common.get_config_data import GetConfig
 
-config = GetConfig()
-get_config = config.get_config_data("EMAIL")
+con = GetConfig()
+get_config = con.get_config_data("EMAIL")
+print(get_config)
 
 def send_email():
     s = smtplib.SMTP_SSL(get_config["MAIL_HOST"], 465, timeout=5)

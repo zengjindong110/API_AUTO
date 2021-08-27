@@ -38,6 +38,6 @@ if __name__ == '__main__':
     path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     print(path)
     gc = GetConfig()
-    a = gc.get_config_data("GATEWAY")
+    a = gc.get_config_data("EMAIL")
     print(a)
-    print(a["AGENT_HOST"])
+
