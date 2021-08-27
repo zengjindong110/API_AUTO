@@ -7,7 +7,7 @@ from common.get_config_data import GetConfig
 
 con = GetConfig()
 get_config = con.get_config_data("EMAIL")
-print(get_config)
+
 
 def send_email():
     s = smtplib.SMTP_SSL(get_config["MAIL_HOST"], 465, timeout=5)
@@ -18,8 +18,11 @@ def send_email():
     msgtext = MIMEText(mail.encode('utf8'), _subtype='html', _charset='utf8')
     msg['From'] = get_config["MAIL_USER"]
     msg['Subject'] = get_config["SUBJECT"]
-    # msg['To'] = ",".join(get_config["to_list"])
-    msg['To'] = get_config["TO_LIST"]
+    to_mail = eval(get_config["TO_LIST"])
+    msg['To'] = ",".join(to_mail)
+    # print(22,eval(get_config["TO_LIST"])[1])
+    # msg['To'] = get_config["TO_LIST"]
+    print(11,msg['To'])
     unpatch = "../report/test_report.html"
     if unpatch is not None:
         file = open(unpatch, 'rb').read()
@@ -29,7 +32,7 @@ def send_email():
         msg.attach(att1)
     msg.attach(msgtext)
     try:
-        s.sendmail(get_config["mail_user"], get_config["to_list"], msg.as_string())
+        s.sendmail(get_config["MAIL_USER"], to_mail, msg.as_string())
         s.close()
 
     except Exception as e:
