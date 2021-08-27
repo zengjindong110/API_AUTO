@@ -22,7 +22,7 @@ def send_email():
     msg['To'] = ",".join(to_mail)
     # print(22,eval(get_config["TO_LIST"])[1])
     # msg['To'] = get_config["TO_LIST"]
-    print(11,msg['To'])
+
     unpatch = "../report/test_report.html"
     if unpatch is not None:
         file = open(unpatch, 'rb').read()
