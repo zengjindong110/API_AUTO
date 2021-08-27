@@ -33,6 +33,7 @@ def send_email():
     msg.attach(msgtext)
     try:
         s.sendmail(get_config["MAIL_USER"], to_mail, msg.as_string())
+        print('\033[1;31;31m {}  \033[0m!'.format("邮件发送成功"))
         s.close()
 
     except Exception as e:
