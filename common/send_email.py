@@ -1,25 +1,28 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from get_config_data import GetConfig
+from common.get_config_data import GetConfig
 
-config = GetConfig("base")
-get_config = config.get_config_data("email")
+con = GetConfig()
+get_config = con.get_config_data("EMAIL")
+
 
 def send_email():
-    s = smtplib.SMTP_SSL(get_config["mail_host"], 465, timeout=5)
-    s.login(get_config["mail_user"], get_config["mail_pwd"])
+    s = smtplib.SMTP_SSL(get_config["MAIL_HOST"], 465, timeout=5)
+    s.login(get_config["MAIL_USER"], get_config["MAIL_PWD"])
 
-    mail = get_config["content"]
+    mail = get_config["CONTENT"]
     msg = MIMEMultipart()
     msgtext = MIMEText(mail.encode('utf8'), _subtype='html', _charset='utf8')
-    msg['From'] = get_config["mail_user"]
-    msg['Subject'] = get_config["subject"]
-    # msg['To'] = ",".join(get_config["to_list"])
-    msg['To'] = get_config["to_list"]
+    msg['From'] = get_config["MAIL_USER"]
+    msg['Subject'] = get_config["SUBJECT"]
+    to_mail = eval(get_config["TO_LIST"])
+    msg['To'] = ",".join(to_mail)
+    # print(22,eval(get_config["TO_LIST"])[1])
+    # msg['To'] = get_config["TO_LIST"]
+
     unpatch = "../report/test_report.html"
     if unpatch is not None:
         file = open(unpatch, 'rb').read()
@@ -29,7 +32,8 @@ def send_email():
         msg.attach(att1)
     msg.attach(msgtext)
     try:
-        s.sendmail(get_config["mail_user"], get_config["to_list"], msg.as_string())
+        s.sendmail(get_config["MAIL_USER"], to_mail, msg.as_string())
+        print('\033[1;32;32m {}  \033[0m!'.format("邮件发送成功"))
         s.close()
 
     except Exception as e:
