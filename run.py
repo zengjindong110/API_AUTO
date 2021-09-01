@@ -24,4 +24,4 @@ if __name__ == '__main__':
     result = BeautifulReport(test_suite)
     result.report(filename='test_report', description='api_test_report', report_dir=source_route)
 
-    send_email()
+    # send_email()

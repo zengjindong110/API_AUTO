@@ -33,9 +33,8 @@ class GetToken(object):
     def get_verify_code():
 
         def get_code():
-
-            captcha_value = get_verify_code(gateway + "/api/v1/ucenter/captchas/fetch/graphic?captchaKey=7de649d9")
-
+            image_url = gateway + "/api/v1/ucenter/captchas/fetch/graphic?captchaKey=7de649d9"
+            captcha_value = get_verify_code(image_url)
             code = str(json.loads(captcha_value["RspData"])["result"])
             return code
 
@@ -75,4 +74,3 @@ GetToken()
 #
 # GetToken()
 print(TOKEN)
-

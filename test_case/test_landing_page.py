@@ -1,7 +1,6 @@
 # coding=utf8
 
 import unittest
-import warnings
 from common.request_api import RequestApi
 from common.get_request_data import get_request_data
 
@@ -13,13 +12,13 @@ class TestUserLogin(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):  # 在所有用例都执行完之后运行的
-        warnings.simplefilter('ignore', ResourceWarning)
-
+        # warnings.simplefilter('ignore', ResourceWarning)
+        pass
     def test_saveOrder(self):  # 函数名要以test开头，否则不会被执行
-        login_data = get_request_data("/api/v1/marketing/advertiser-account-groups/collect/list")[0]
+        login_data = get_request_data("/api/v1/marketing/advertiser-account-groups/collect/list")
         r = RequestApi()
-        r.request(login_data)
-        self.assertEqual(1, 1)
+        r.request(login_data[0])
+
 
 
 if __name__ == '__main__':
