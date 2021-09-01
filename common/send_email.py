@@ -23,7 +23,7 @@ def send_email():
     # print(22,eval(get_config["TO_LIST"])[1])
     # msg['To'] = get_config["TO_LIST"]
 
-    unpatch = "../report/test_report.html"
+    unpatch = "./report/test_report.html"
     if unpatch is not None:
         file = open(unpatch, 'rb').read()
         att1 = MIMEText(file, 'base64', "utf-8")
