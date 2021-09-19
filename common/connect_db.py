@@ -66,7 +66,7 @@ class Connect_Db(object):
 
 if __name__ == '__main__':
     c = Connect_Db()
-    x = c.insert_data(
+    x = c.select_data(
 
-        """INSERT INTO `my_data`.`api_auto_test` (`data`,`assert`, `uri`, `method`, `create_time`, `update_time`, `describe`) VALUES ('{\"aa\":\"vv\"}', 'aasdfasd', 'dfasdfasdf', 'fsdafasdf', '2021-08-14 08:37:31', '2021-08-14 08:37:31', NULL);""")
+        """select * from api_auto_test""")
     print(x)
