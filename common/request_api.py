@@ -1,7 +1,6 @@
 # coding=utf-8
 import requests
 import config
-import json
 from common.log import *
 from common.get_config_data import GetConfig
 
