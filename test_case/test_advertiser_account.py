@@ -1,7 +1,9 @@
 import json
 
 from test_case import *
+
 request = RequestApi()
+
 
 class TestUserAuthorization(unittest.TestCase):
 
@@ -36,10 +38,8 @@ class TestUserAuthorization(unittest.TestCase):
                 "advertiser_ids": [1694462909668360], "material_auth": 0}
         ocean_engine_respond = requests.post(ocean_engine_url, headers=header, json=data).text  # verify=False
         authorization_url = json.loads(ocean_engine_respond)["data"]["next_url"]
-        data = {"uri":authorization_url,"method":"get", }
+        data = {"uri": authorization_url, "method": "get", }
         request.request(data)
-
-
 
 
 if __name__ == '__main__':

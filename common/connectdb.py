@@ -1,25 +1,33 @@
+import psycopg2
 import pymysql
 import threading
 from common.get_config_data import GetConfig
 
 
-class Connect_Db(object):
+class ConnectDb(object):
     def __init__(self):
         self.gc = GetConfig()
-        self.config = self.gc.get_config_data("MYSQL")
-        self.connect = pymysql.connect(host=self.config["HOST"],
-                                       port=3306,
-                                       user=self.config["USER"],
-                                       passwd=self.config["PASSWORD"],
-                                       db=self.config["DB"],
-                                       charset='utf8')
+        self.config = self.gc.get_config_data("PG")
+        # self.connect = pymysql.connect(host=self.config["HOST"],
+        #                                port=3306,
+        #                                user=self.config["USER"],
+        #                                passwd=self.config["PASSWORD"],
+        #                                db=self.config["DB"],
+        print(self.config["HOST"], self.config["USER"], self.config["PASSWORD"], self.config["DB"])
+        self.connect = psycopg2.connect(host=self.config["HOST"],
+                                        port=5432,
+                                        user=self.config["USER"],
+                                        password=self.config["PASSWORD"],
+                                        database=self.config["DB"]
+                                        )
         self.cursor = self.connect.cursor()
         self.lock = threading.Lock()
 
     def __del__(self):
 
-        self.connect.close()
-        self.cursor.close()
+        # self.connect.close()
+        # self.cursor.close()
+        pass
 
     def execute_sql(self, sql):
         """
@@ -55,9 +63,9 @@ class Connect_Db(object):
         """
 
         try:
-
             self.execute_sql(sql)
             all_data = self.cursor.fetchall()
+
             return all_data
         except Exception as E:
             print('\033[1;31;31m err-sql  "{}" {} \033[0m!'.format(sql, E))
@@ -65,8 +73,6 @@ class Connect_Db(object):
 
 
 if __name__ == '__main__':
-    c = Connect_Db()
-    x = c.select_data(
-
-        """select * from api_auto_test""")
+    c = ConnectDb()
+    x = c.select_data("""SELECT uri,method, data,assert,describe FROM asp_saas_zjd.test""")
     print(x)

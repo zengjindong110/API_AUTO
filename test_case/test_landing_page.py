@@ -18,7 +18,8 @@ class TestUserLogin(unittest.TestCase):
         pass
 
     def test_saveOrder(self):  # 函数名要以test开头，否则不会被执行
-        login_data = get_request_data("/api/v1/marketing/advertiser-account-groups/collect/list")
+        login_data = get_request_data("/api/v1/landing-page/landing-pages/pmp")
+
         r = RequestApi()
         r.request(login_data[0])
 

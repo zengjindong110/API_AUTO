@@ -1,26 +1,27 @@
 # coding=utf8
 
 import json
-from common.connect_db import Connect_Db
+from common.connectdb import ConnectDb
 
 
 # 连接数据库获取参数
 def get_request_data(uri=None, describe=None):
-    conn = Connect_Db()
+    conn = ConnectDb()
 
     li = list()
     if not describe:
-        sql = "SELECT `uri`,`method`, `data`,`assert`,`describe` FROM `api_auto_test` WHERE `uri`='{uri}'".format(
+        sql = "SELECT uri,method, data,assert,describe FROM asp_saas_zjd.test WHERE uri='{uri}'".format(
             uri=uri)
     elif not uri:
-        sql = "SELECT `uri`,`method`, `data`,`assert`,`describe` FROM `api_auto_test` WHERE `describe`='{describe}' ".format(
+        sql = "SELECT uri,method, data,assert,describe FROM asp_saas_zjd.test WHERE describe='{describe}' ".format(
             describe=describe)
     else:
-        sql = "SELECT `uri`,`method`, `data`,`assert`,`describe` FROM `api_auto_test` WHERE `uri`='{uri}' and `describe`='{describe}'".format(
+        sql = "SELECT uri,method, data,assert,describe FROM asp_saas_zjd.test WHERE uri='{uri}' and describe='{describe}'".format(
             uri=uri, describe=describe)
 
     for i in conn.select_data(sql):
         try:
+
             data = json.loads(i[2])
             asserts = json.loads(i[3])
         except Exception as e:
@@ -35,8 +36,5 @@ def get_request_data(uri=None, describe=None):
 
 
 if __name__ == '__main__':
-    a = get_request_data("/api/v1/marketing/advertiser-account-groups/collect/list")
+    a = get_request_data("/api/v1/landing-page/landing-pages/pmp")
     print(a)
-    x = '{"page":"1","size":"20","sort":"pv","order":"desc","name":""}'
-    m = json.loads(x)
-    print(m)
