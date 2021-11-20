@@ -1,5 +1,5 @@
 import psycopg2
-import pymysql
+# import pymysql
 import threading
 from common.get_config_data import GetConfig
 
