@@ -15,7 +15,7 @@ get_config = GetConfig()
 gateway = get_config.get_config_data("GATEWAY")["AGENT_HOST"]
 
 TOKEN = {
-    "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5aXllX2FnZW50X3Rlc3QiLCJ1aWQiOjEsImFnZW50SWQiOiJ6amQiLCJhY2Nlc3NfdG9rZW4iOiIyMzVlMTZjY2ZlYzE0MzVkOWExYWNhZGI4OTIwNjQ0YiIsInN5c3RlbV90eXBlIjoiYWdlbnRfcHJpdmF0ZSIsImV4cCI6MTYzNzE0NTkyNn0.qFlYo-ai3JchTpRTF8IpPbtigCZaqTKOWQzM_yPLsN_dA_iFxG4s72L964iB1xH9BVbpXFkNdDnmFpevZ6kZlA"}
+    "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5aXllX2FnZW50X3Rlc3QiLCJ1aWQiOjEsImFnZW50SWQiOiJ6amQiLCJhY2Nlc3NfdG9rZW4iOiJmMjQwNTg0OTc2M2Q0YzA1YjQ3NTJjMjU0ZTlmZmM3YyIsInN5c3RlbV90eXBlIjoiYWdlbnRfcHJpdmF0ZSIsImV4cCI6MTYzODQ1MjA3N30.56GaUB5qKvPZPlfbyFpPtGQ-XSof95zS1uqHZh0vOAr5O6n-W0xTCNTdHyzkgdmCN3MB4RUUTBrxPeebTja3MQ"}
 
 
 class GetToken(object):

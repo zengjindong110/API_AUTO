@@ -10,15 +10,15 @@ def get_request_data(uri=None, describe=None):
 
     li = list()
     if not describe:
-        sql = "SELECT uri,method, data,assert,describe FROM asp_saas_zjd.test WHERE uri='{uri}'".format(
+        sql = "SELECT uri,method, data,assert,describe FROM asp_saas_zjd.api_test WHERE uri='{uri}'".format(
             uri=uri)
     elif not uri:
-        sql = "SELECT uri,method, data,assert,describe FROM asp_saas_zjd.test WHERE describe='{describe}' ".format(
+        sql = "SELECT uri,method, data,assert,describe FROM asp_saas_zjd.api_test WHERE describe='{describe}' ".format(
             describe=describe)
     else:
-        sql = "SELECT uri,method, data,assert,describe FROM asp_saas_zjd.test WHERE uri='{uri}' and describe='{describe}'".format(
+        sql = "SELECT uri,method, data,assert,describe FROM asp_saas_zjd.api_test WHERE uri='{uri}' and describe='{describe}'".format(
             uri=uri, describe=describe)
-
+    print(sql)
     for i in conn.select_data(sql):
         try:
 
