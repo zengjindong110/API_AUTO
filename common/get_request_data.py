@@ -10,27 +10,30 @@ def get_request_data(uri=None, describe=None):
 
     li = list()
     if not describe:
-        sql = "SELECT uri,method, data,assert,describe FROM asp_saas_zjd.api_test WHERE uri='{uri}'".format(
+        sql = "SELECT  uri,method, data,assert,describe,id  FROM asp_saas_zjd.api_test WHERE uri='{uri}'".format(
             uri=uri)
     elif not uri:
-        sql = "SELECT uri,method, data,assert,describe FROM asp_saas_zjd.api_test WHERE describe='{describe}' ".format(
+        sql = "SELECT uri,method, data,assert,describe,id FROM asp_saas_zjd.api_test WHERE describe='{describe}' ".format(
             describe=describe)
     else:
-        sql = "SELECT uri,method, data,assert,describe FROM asp_saas_zjd.api_test WHERE uri='{uri}' and describe='{describe}'".format(
+        sql = "SELECT uri,method, data,assert,describe,id FROM asp_saas_zjd.api_test WHERE uri='{uri}' and describe='{describe}'".format(
             uri=uri, describe=describe)
-    print(sql)
-    for i in conn.select_data(sql):
+
+    seach_data = conn.select_data(sql)
+    print(seach_data)
+    for i in seach_data:
         try:
 
             data = json.loads(i[2])
             asserts = json.loads(i[3])
+
         except Exception as e:
 
             data = eval(i[2])
             asserts = eval(i[3])
         finally:
             pass
-        li.append({"uri": i[0], "method": i[1], "data": data, "assert": asserts, "describe": i[4]})
+        li.append({"id": i[5], "uri": i[0], "method": i[1], "data": data, "assert": asserts, "describe": i[4]})
 
     return li
 

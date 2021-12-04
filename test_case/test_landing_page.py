@@ -4,6 +4,7 @@ import string
 from test_case import *
 
 
+
 # import unittest
 # from common.request_api import RequestApi
 # from common.get_request_data import get_request_data
@@ -29,5 +30,5 @@ class TestUserLogin(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    print(advertiserGroupId)
+
     unittest.main()

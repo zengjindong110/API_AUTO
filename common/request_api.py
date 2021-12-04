@@ -12,9 +12,9 @@ logger = log.Logger
 
 
 class RequestApi(GetConfig):
-    def __init__(self):
+    def __init__(self,file_name):
         self.header = {"authorization": dict(config.TOKEN)["token"]}
-        super(RequestApi, self).__init__(None)
+        super(RequestApi, self).__init__(file_name)
         self.gateway = self.get_config_data("USER")["HOST"]
 
     def request(self, data):
@@ -63,7 +63,7 @@ class RequestApi(GetConfig):
 
 
 if __name__ == '__main__':
-    r = RequestApi()
+    r = RequestApi("config.ini")
 
     a = {'uri': "/api/v1/marketing/advertiser-account-groups/collect/list", 'method': 'GET',
                 'data': {"name": "api_test"}, 'assert': {'aa': 'bb'}, 'describe': '这是模板'}

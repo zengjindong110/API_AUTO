@@ -3,10 +3,9 @@ import unittest
 from common.request_api import RequestApi
 from common.get_request_data import get_request_data
 
-__all__ = ['RequestApi', 'get_request_data', 'unittest', ]
-
 R = RequestApi()
 
+advertiserGroupId = ""
 
 
 class CheckPmp(object):
@@ -29,6 +28,7 @@ class CheckPmp(object):
             return False
 
     def creat_user(self):
+
         advertiserGroupId = self.check_user()
         if advertiserGroupId:
             print(advertiserGroupId)
@@ -42,5 +42,7 @@ class CheckPmp(object):
             return advertiserGroupId
 
 
-CheckPmp()
+cp = CheckPmp()
+cp.check_user()
 
+__all__ = ['RequestApi', 'get_request_data', 'unittest', 'CheckPmp']
