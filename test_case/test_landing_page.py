@@ -4,13 +4,15 @@ import string
 from test_case import *
 
 
-
 # import unittest
 # from common.request_api import RequestApi
 # from common.get_request_data import get_request_data
 
 
-class TestUserLogin(unittest.TestCase):
+class TestUserLogin(unittest.TestCase,RequestApi):
+    # def __init__(self):
+    #     RequestApi.__init__(self)
+
 
     def tearDown(self):  # 每个用例运行之后运行的
         pass
@@ -25,10 +27,10 @@ class TestUserLogin(unittest.TestCase):
 
         print(login_data)
         login_data[0]["data"]["name"] = "自动化测试" + ''.join(random.sample(string.digits + string.ascii_letters, 8))
-        r = RequestApi()
-        r.request(login_data[0])
+        # r = RequestApi()
+        self.request(login_data[0])
+
 
 
 if __name__ == '__main__':
-
     unittest.main()

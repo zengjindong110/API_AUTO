@@ -33,6 +33,7 @@ def get_request_data(uri=None, describe=None):
             asserts = eval(i[3])
         finally:
             pass
+
         li.append({"id": i[5], "uri": i[0], "method": i[1], "data": data, "assert": asserts, "describe": i[4]})
 
     return li

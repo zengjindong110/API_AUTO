@@ -15,7 +15,7 @@ get_config = GetConfig()
 gateway = get_config.get_config_data("GATEWAY")["AGENT_HOST"]
 
 TOKEN = {
-    "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5aXllX2FnZW50X3Rlc3QiLCJ1aWQiOjEsImFnZW50SWQiOiJ6amQiLCJhY2Nlc3NfdG9rZW4iOiI1ZDhiYWQ0ZTE1ZTc0ZmY1OTY0NjE4MjRlMWUxZGQ5YSIsInN5c3RlbV90eXBlIjoiYWdlbnRfcHJpdmF0ZSIsImV4cCI6MTYzODU0MDkwN30.Iyi-FQT8KKjaBv2CxupRXmuWajLSLUTdjD3JPs9UX6YLpiAfoi0lxvZAHK2oYy1IWrfsPVdOimUbpCJ_uKQ7aQ"}
+    "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5aXllX2FnZW50X3Rlc3QiLCJ1aWQiOjEsImFnZW50SWQiOiJ6amQiLCJhY2Nlc3NfdG9rZW4iOiIyYzMzMGI2M2RjZTg0MzZjODYyYWY0NzJlNWVhYjBlMiIsInN5c3RlbV90eXBlIjoiYWdlbnRfcHJpdmF0ZSIsImV4cCI6MTYzOTg4OTM5MH0.vuDeO_B1kfHd5jf0ON-mbtdpHJMgAkhmIy9VpWPFB6BwGDDa5yvoqV5y5p2QrflWRTPX-j0dtEizzKa2JUfiWA"}
 
 
 class GetToken(object):

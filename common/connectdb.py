@@ -1,3 +1,5 @@
+import json
+
 import psycopg2
 # import pymysql
 import threading
@@ -35,6 +37,7 @@ class ConnectDb(object):
         :param sql:
         :return:
         """
+        print(sql)
         self.cursor.execute(sql)
 
         return self.cursor.execute(sql)
@@ -71,8 +74,21 @@ class ConnectDb(object):
             print('\033[1;31;31m err-sql  "{}" {} \033[0m!'.format(sql, E))
             self.connect.rollback()
 
+    def update_data(self, sql):
+        try:
+            result = self.execute_sql(sql)
+            self.connect.commit()
+            return result
+        # 错误回滚
+        except Exception as E:
+            print('\033[1;31;31m err-sql  "{}" {} \033[0m!'.format(sql, E))
+            self.connect.rollback()
+    def get_pmp_id(self):
+        pmp_id = json.loads(self.select_data("""SELECT respond FROM asp_saas_zjd.api_test WHERE uri = '/api/v1/landing-page/landing-pages/pmp' """)[0][0])["records"][0]["id"]
 
+        return pmp_id
 if __name__ == '__main__':
     c = ConnectDb()
-    x = c.select_data("""SELECT uri,method, data,assert,describe FROM asp_saas_zjd.test""")
+    x = c.select_data(
+        """SELECT respond FROM asp_saas_zjd.api_test WHERE uri = '/api/v1/landing-page/landing-pages/pmp'""")
     print(x)

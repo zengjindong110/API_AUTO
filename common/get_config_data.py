@@ -18,13 +18,13 @@ class GetConfig(object):
     返回字典
     """
 
-    def __init__(self, file_name="config"):
+    def __init__(self):
         # 获取当前文件的路径
         current_file_name = inspect.getfile(inspect.currentframe())
         # 获取当前文件的父级目录
         current_path = os.path.dirname(current_file_name)
         current_path = os.path.dirname(current_path) + "/config"
-        self.file_name = file_name
+        self.file_name =  "config"
         self.file_path = current_path
 
     # 获取ini的配置文件,返回一个字典

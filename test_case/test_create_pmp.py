@@ -5,9 +5,6 @@ import json
 
 class TestCreatePmp(unittest.TestCase, RequestApi):
 
-    def __init__(self, file_name):
-        super(TestCreatePmp, self).__init__(file_name)
-
     def tearDown(self):  # 每个用例运行之后运行的
         pass
 
@@ -16,12 +13,11 @@ class TestCreatePmp(unittest.TestCase, RequestApi):
         # warnings.simplefilter('ignore', ResourceWarning)
         pass
 
-    def test_check_user(self):  # 函数名要以test开头，否则不会被执行
+    def check_user(self):  # 函数名要以test开头，否则不会被执行
 
-        data = {'uri': "/api/v1/marketing/advertiser-account-groups/collect/list", 'method': 'GET',
-                'data': {"name": "api_test"}}
         data = get_request_data("/api/v1/marketing/advertiser-account-groups/collect/list")
-        respond = json.loads(self.request(data[0]))
+
+        respond = json.loads(self.request(data[0]).text)
         # 判断搜索pmp账号接口有没有“api_test”的账号，没有的返回false，有就返回true
 
         if respond["records"]:
@@ -33,9 +29,9 @@ class TestCreatePmp(unittest.TestCase, RequestApi):
 
     def test_create_user(self):
 
-        advertiserGroupId = self.test_check_user()
+        advertiserGroupId = self.check_user()
         if advertiserGroupId:
-            print(advertiserGroupId)
+            self.assertTrue(1)
             return advertiserGroupId
         else:
             advertiserGroupId = self.request({'uri': "/api/v1/marketing/advertiser-account-groups", 'method': 'POST',
@@ -43,7 +39,7 @@ class TestCreatePmp(unittest.TestCase, RequestApi):
                                                        "managerList": [],
                                                        "leaderId": None,
                                                        "advertiserAccountIds": [], "target": []}})
-            return advertiserGroupId
+            self.assertEqual(advertiserGroupId.status_code, 200, msg="创建pmp账号")
 
 
 if __name__ == '__main__':
