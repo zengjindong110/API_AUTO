@@ -1,8 +1,9 @@
 import json
-
-import psycopg2
 # import pymysql
 import threading
+
+import psycopg2
+
 from common.get_config_data import GetConfig
 
 
@@ -83,12 +84,17 @@ class ConnectDb(object):
         except Exception as E:
             print('\033[1;31;31m err-sql  "{}" {} \033[0m!'.format(sql, E))
             self.connect.rollback()
+
     def get_pmp_id(self):
-        pmp_id = json.loads(self.select_data("""SELECT respond FROM asp_saas_zjd.api_test WHERE uri = '/api/v1/landing-page/landing-pages/pmp' """)[0][0])["records"][0]["id"]
+        pmp_id = json.loads(self.select_data(
+            """SELECT respond FROM asp_saas_zjd.api_test WHERE uri = '/api/v1/marketing/advertiser-account-groups/collect/list' """)[
+                                0][0])["records"][0]["id"]
 
         return pmp_id
+
+
 if __name__ == '__main__':
     c = ConnectDb()
     x = c.select_data(
-        """SELECT respond FROM asp_saas_zjd.api_test WHERE uri = '/api/v1/landing-page/landing-pages/pmp'""")
+        """SELECT respond FROM asp_saas_zjd.api_test WHERE uri = '/api/v1/marketing/advertiser-account-groups/collect/list' """)
     print(x)
