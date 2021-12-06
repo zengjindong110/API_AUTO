@@ -26,12 +26,11 @@ class RequestApi(object):
     @staticmethod
     def deal_with_data(request_data):
         _data = {}
-        id = request_data["id"]
+        _id = request_data["id"]
         data = request_data["data"]
         uri = request_data["uri"]
         method = request_data["method"].lower()
         if "advertiserGroupId" in data.keys():
-
             advertiser_group_id = CD.get_pmp_id()
             data["advertiserGroupId"] = advertiser_group_id
         if "http" in uri:
@@ -42,7 +41,7 @@ class RequestApi(object):
         _data["url"] = url
         _data["method"] = method
         _data["data"] = data
-        _data["id"] = id
+        _data["id"] = _id
         return _data
 
     def request(self, request_data):
@@ -51,25 +50,7 @@ class RequestApi(object):
 
         respond = self.request(data)
         """
-        # res = ""
-        # uri = request_data["uri"]
-        # method = request_data["method"]
-        #
-        # if "data" in request_data.keys():
-        #
-        #     data = request_data["data"]
-        #
-        #     if "advertiserGroupId" in data.keys():
-        #         advertiserGroupId = CD.get_pmp_id()
-        #         print(advertiserGroupId)
-        #         data["advertiserGroupId"] = advertiserGroupId
-        #
-        # else:
-        #     request_data = ""
-        # if "http" in uri:
-        #     request_url = uri
-        # else:
-        #     request_url = gateway + uri
+
         _data = self.deal_with_data(request_data)
 
         if _data["method"] in ["post", "put"]:
@@ -85,8 +66,6 @@ class RequestApi(object):
                 except Exception as e:
                     logger.warn(e)
 
-                # print("请求方式：{}  请求地址：{}  请求参数：{}  返回参数：{}".format(method, request_url, request_data.replace("\n", ""),
-                #                                                   res.text))
                 CD.update_data(
                     """UPDATE asp_saas_zjd.api_test SET respond = '{}' WHERE id = {}""".format(res.text,
                                                                                                request_data["id"]))
