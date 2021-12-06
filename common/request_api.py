@@ -39,7 +39,7 @@ class RequestApi(object):
         else:
             url = gateway + uri
 
-        _data["uri"] = url
+        _data["url"] = url
         _data["method"] = method
         _data["data"] = data
         _data["id"] = id
@@ -71,12 +71,13 @@ class RequestApi(object):
         # else:
         #     request_url = gateway + uri
         _data = self.deal_with_data(request_data)
+
         if _data["method"] in ["post", "put"]:
-            if type(request_data) == dict:
+            if type(_data) == dict:
 
                 try:
                     res = requests.request(_data["method"], url=_data["url"],
-                                           headers=header, json=_data[_data],
+                                           headers=header, json=_data["data"],
                                            timeout=30)
                     logger.info(
                         "请求方式：{}  请求地址：{}  请求参数：{}  返回参数：{}".format(_data["method"], _data["url"], request_data,
@@ -93,17 +94,17 @@ class RequestApi(object):
         elif _data["method"] in ["get", "delete"]:
             try:
                 res = requests.request(_data["method"], url=_data["url"],
-                                       headers=header, params=_data[_data], timeout=30)
+                                       headers=header, params=_data["data"], timeout=30)
                 logger.info(
                     "请求方式：{}  请求地址：{}  请求参数：{}  返回参数：{}".format(_data["method"], _data["url"], request_data, res.text))
 
             except Exception as e:
                 logger.warn(e)
 
-                insert_data = res.text
-                res="111"
+            # insert_data = res.text
+
             CD.update_data(
-                """UPDATE asp_saas_zjd.api_test SET respond = '{}' WHERE id = {}""".format(insert_data,
+                """UPDATE asp_saas_zjd.api_test SET respond = '{}' WHERE id = {}""".format(res.text,
                                                                                            request_data["id"]))
             return res
 
