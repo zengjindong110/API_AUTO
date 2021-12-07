@@ -50,42 +50,28 @@ class RequestApi(object):
 
         respond = self.request(data)
         """
-
+        res = ""
         _data = self.deal_with_data(request_data)
-
-        if _data["method"] in ["post", "put"]:
-            if type(_data) == dict:
-
-                try:
-                    res = requests.request(_data["method"], url=_data["url"],
-                                           headers=header, json=_data["data"],
-                                           timeout=30)
-                    logger.info(
-                        "请求方式：{}  请求地址：{}  请求参数：{}  返回参数：{}".format(_data["method"], _data["url"], request_data,
-                                                                    res.text))
-                except Exception as e:
-                    logger.warn(e)
-
-                CD.update_data(
-                    """UPDATE asp_saas_zjd.api_test SET respond = '{}' WHERE id = {}""".format(res.text,
-                                                                                               request_data["id"]))
-                return res
-        elif _data["method"] in ["get", "delete"]:
-            try:
+        try:
+            if _data["method"] in ["post", "put"]:
+                res = requests.request(_data["method"], url=_data["url"],
+                                       headers=header, json=_data["data"],
+                                       timeout=30)
+            elif _data["method"] in ["get", "delete"]:
                 res = requests.request(_data["method"], url=_data["url"],
                                        headers=header, params=_data["data"], timeout=30)
-                logger.info(
-                    "请求方式：{}  请求地址：{}  请求参数：{}  返回参数：{}".format(_data["method"], _data["url"], request_data, res.text))
+        except Exception as e:
+            raise logger.error("请求方式：{}  请求地址：{}  请求参数：{}".format(_data["method"], _data["url"], request_data,
+                                                            ))
 
-            except Exception as e:
-                logger.warn(e)
+        logger.info(
+            "请求方式：{}  请求地址：{}  请求参数：{}  返回参数：{}".format(_data["method"], _data["url"], request_data,
+                                                        res.text))
 
-            # insert_data = res.text
-
-            CD.update_data(
-                """UPDATE asp_saas_zjd.api_test SET respond = '{}' WHERE id = {}""".format(res.text,
-                                                                                           request_data["id"]))
-            return res
+        CD.update_data(
+            """UPDATE asp_saas_zjd.api_test SET respond = '{}' WHERE id = {}""".format(res.text,
+                                                                                       request_data["id"]))
+        return res
 
 
 if __name__ == '__main__':
