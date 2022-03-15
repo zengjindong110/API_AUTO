@@ -1,5 +1,6 @@
 import hashlib
 import time
+
 import requests
 
 pd_id = "126723"
@@ -41,7 +42,19 @@ param = {
 
 
 def get_verify_code(image_url):
-    img_data = requests.get(image_url).content
+    headers = {
+        "host": "dbq.asptest.yiye.ai",
+        "pragma": "no-cache",
+        "referer": "https://dbq.asptest.yiye.ai/login",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "windows",
+        "seC-fetcH-dest": "image",
+        "seC-fetcH-mode": "no-cors",
+        "seC-fetcH-site": "same-origin",
+        "useR-agent": "mozilla/5.0 (windOWs NT 10.0; Win64; x64) aPplEwebKit/537.36 (KHTml, lIke gecKo) chrome/99.0.4844.51 safari/537.36",
+    }
+
+    img_data = requests.get(url=image_url, headers=headers).content
 
     files = {
         'img_data': ('img_data', img_data)
