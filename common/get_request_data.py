@@ -35,9 +35,8 @@ def get_request_data(uri=None, describe=None):
         sql = "SELECT uri,method, data,assert,describe,id FROM asp_saas_zjd.api_test WHERE uri='{uri}' and describe='{describe}'".format(
             uri=uri, describe=describe)
 
-    seach_data = conn.select_data(sql)
-    print(seach_data)
-    for i in seach_data:
+    search_data = conn.select_data(sql)
+    for i in search_data:
         try:
 
             data = json.loads(i[2])

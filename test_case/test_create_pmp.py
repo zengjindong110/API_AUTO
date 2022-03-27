@@ -38,7 +38,7 @@ class TestCreatePmp(unittest.TestCase, RequestApi):
                                               'data': {"name": "api_test", "advertiserAccountIndustryId": 125,
                                                        "managerList": [],
                                                        "leaderId": None,
-                                                       "advertiserAccountIds": [], "target": []}})
+                                                       "advertiserAccountIds": [], "target": []},"id":9999})
             self.assertEqual(advertiserGroupId.status_code, 200, msg="创建pmp账号")
 
 

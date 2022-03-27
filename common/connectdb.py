@@ -4,7 +4,7 @@ import threading
 
 import psycopg2
 
-from common.get_config_data import GetConfig
+from config.get_config_data import GetConfig
 
 
 class ConnectDb(object):
@@ -16,7 +16,7 @@ class ConnectDb(object):
         #                                user=self.config["USER"],
         #                                passwd=self.config["PASSWORD"],
         #                                db=self.config["DB"],
-        print(self.config["HOST"], self.config["USER"], self.config["PASSWORD"], self.config["DB"])
+        # print(self.config["HOST"], self.config["USER"], self.config["PASSWORD"], self.config["DB"])
         self.connect = psycopg2.connect(host=self.config["HOST"],
                                         port=5432,
                                         user=self.config["USER"],
@@ -38,7 +38,6 @@ class ConnectDb(object):
         :param sql:
         :return:
         """
-        print(sql)
         self.cursor.execute(sql)
 
         return self.cursor.execute(sql)
@@ -95,6 +94,7 @@ class ConnectDb(object):
 
 if __name__ == '__main__':
     c = ConnectDb()
-    x = c.select_data(
-        """SELECT respond FROM asp_saas_zjd.api_test WHERE uri = '/api/v1/marketing/advertiser-account-groups/collect/list' """)
-    print(x)
+    # x = c.select_data(
+    #     """SELECT respond FROM asp_saas_zjd.api_test WHERE uri = '/api/v1/marketing/advertiser-account-groups/collect/list' """)
+    # print(x)
+    print(c.get_pmp_id())

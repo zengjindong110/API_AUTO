@@ -16,8 +16,11 @@ prod 为线上环境
 """
 
 if __name__ == '__main__':
+
     test_suite = unittest.defaultTestLoader.discover('./test_case', pattern='test*.py')
+
     result = BeautifulReport(test_suite)
+
     result.report(filename='test_report', description='api_test_report', report_dir=source_route)
 
     # send_email()

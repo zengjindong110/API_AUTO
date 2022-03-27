@@ -2,62 +2,36 @@ import json
 
 import requests
 
-from common.get_config_data import GetConfig
-from common.get_verification_code import get_verify_code
+from common.log import Log
+from config.get_config_data import GetConfig
+from config.get_verification_code import get_verify_code
 
-# # 获取当前文件的路径
-# current_file_name = inspect.getfile(inspect.currentframe())
-# # 获取当前文件的父级目录
-# # os.path.dirname(current_file_name) 为获取当前路径下面的父级路径
-# current_path = os.path.dirname(os.path.dirname(current_file_name)) + "/config"
-
+TOKEN = {
+    'token': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5aXllX2FnZW50X3Rlc3QiLCJ1aWQiOjEsImFnZW50SWQiOiJkYnEiLCJhY2Nlc3NfdG9rZW4iOiIwMGZjYjYxNDM1NTY0MzA3OWRmNjI4YmI0MjRkZjM4OCIsInN5c3RlbV90eXBlIjoiYWdlbnRfcHJpdmF0ZSIsImV4cCI6MTY0OTQ2OTY5NX0.tKcuOy1Rnyv-6EFCohqL_sfuTveuZ-9moxBk9axEeJAe7ysxrvdOcq9FAHOJOzgMLT5mz0sJpXGEFmrG4Jyccw'}
+PMP_ID = ""
 get_config = GetConfig()
-gateway = get_config.get_config_data("GATEWAY")["AGENT_HOST"]
-#
-# TOKEN = {
-#     "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5aXllX2FnZW50X3Rlc3QiLCJ1aWQiOjEsImFnZW50SWQiOiJ6amQiLCJhY2Nlc3NfdG9rZW4iOiIyYzMzMGI2M2RjZTg0MzZjODYyYWY0NzJlNWVhYjBlMiIsInN5c3RlbV90eXBlIjoiYWdlbnRfcHJpdmF0ZSIsImV4cCI6MTYzOTg4OTM5MH0.vuDeO_B1kfHd5jf0ON-mbtdpHJMgAkhmIy9VpWPFB6BwGDDa5yvoqV5y5p2QrflWRTPX-j0dtEizzKa2JUfiWA"}
-TOKEN = ""
+gateway = get_config.get_config_data("USER")["HOST"]
+
+logger = Log(__file__)
 
 
 class GetToken(object):
-    # def __call__(self, *args, **kwargs):
-    #     print(1111)
-    #     TOKEN =  self.get_token()
 
     def __init__(self):
-        print(111)
-        self.header = {
-            "host": "dbq.asptest.yiye.ai",
-            "connection": "keep-alive",
-            "contenT-length": "124",
-            "pragma": "no-cache",
-            "cachE-control": "no-cache",
-            "DNT": "1",
-            "sec-ch-ua-mobile": "?0",
-            "authorization": "",
-            "contenT-type": "application/x-www-form-urlencoded",
-            "accept": "application/json, text/plain, */*",
-            "useR-agent": "mozilla/5.0 (windOWs NT 10.0; Win64; x64) aPplEwebKit/537.36 (KHTml, lIke gecKo) chrome/99.0.4844.51 safari/537.36",
-            "type": "",
-            "X-Y-version": "1.130.0",
-            "sec-ch-ua-platform": "windows",
-            "origin": "https://dbq.asptest.yiye.ai",
-            "seC-fetcH-site": "same-origin",
-            "seC-fetcH-mode": "cors",
-            "seC-fetcH-dest": "empty",
-            "referer": "https://dbq.asptest.yiye.ai/login",
-            "accepT-encoding": "gzip, deflate, br",
-            "accepT-language": "Zh-cN,zh;q=0.9,En-US;q=0.8,en;q=0.7,Zh-TW;q=0.6",
-        }
         global TOKEN
-        TOKEN = self.get_token()
+        # TOKEN = self.get_token()
+        global PMP_ID
+        PMP_ID = self.get_pmp_id()
 
-    @staticmethod
-    def get_verify_code():
+    def get_verify_code(self):
 
         def get_code():
             image_url = gateway + "/api/v1/ucenter/captchas/fetch/graphic?captchaKey=f3affef4"
-            captcha_value = get_verify_code(image_url)
+            img_data = requests.get(url=image_url, headers=get_config.get_header()).content
+            files = {
+                'img_data': ('img_data', img_data)
+            }
+            captcha_value = get_verify_code(files)
             code = str(json.loads(captcha_value["RspData"])["result"])
             return code
 
@@ -77,10 +51,9 @@ class GetToken(object):
             'captchaType': 'GRAPHIC',
             'captchaKey': 'f3affef4',
             'captchaValue': str(self.get_verify_code()),
-            # 'captchaValue': "5947",
             'rememberMe': 'true'
         }
-        respond = requests.post(url=url, headers=self.header, data=requests_data).json()
+        respond = requests.post(url=url, headers=get_config.get_header(), data=requests_data).json()
         return respond
 
     def get_token(self):
@@ -91,14 +64,26 @@ class GetToken(object):
             else:
                 continue
 
+    def get_pmp_id(self):
+        # 查看当前pmp是否有api_test的pmp
+        pmp_url = gateway + "/api/v1/marketing/advertiser-account-groups/collect/list"
+        params = {"name": "api_test"}
+        respond = requests.get(url=pmp_url, headers=get_config.get_header(), params=params).json()
+        try:
+            if respond["records"]:
+
+                return respond["records"][0]["id"]
+
+            else:
+
+                create_pmp_url = gateway + "/api/v1/marketing/advertiser-account-groups"
+                data = {"name": "api_test", "advertiserAccountIndustryId": 2, "managerList": [], "leaderId": None,
+                        "advertiserAccountIds": [], "target": []}
+                global PMP_ID
+                PMP_ID = requests.post(url=create_pmp_url, headers=get_config.get_header(), json=data).json()
+            raise respond
+        except KeyError:
+            logger.error("查询pmp_id出现错误:{}".format(str(respond)))
+
 
 GetToken()
-
-
-# if __name__ == '__main__':
-#     xx = GetToken()
-#     xx.login_asp()
-#     xx.get_verify_code()
-# # print(TOKEN)
-# a = GetToken()
-# a.login_asp()

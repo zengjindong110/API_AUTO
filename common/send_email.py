@@ -3,7 +3,7 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from common.get_config_data import GetConfig
+from config.get_config_data import GetConfig
 
 con = GetConfig()
 get_config = con.get_config_data("EMAIL")
