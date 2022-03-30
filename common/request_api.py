@@ -1,4 +1,6 @@
 # coding=utf-8
+import json
+
 import requests
 
 from common.connectdb import ConnectDb
@@ -38,6 +40,11 @@ def deal_with_data(request_data):
 
 
 class RequestApi(object):
+    def __init__(self):
+        # 为了抓包使用了代理
+        self.proxies = {'http': 'http://localhost:8888', 'https': 'http://localhost:8888'}
+        # self.proxies = None
+        pass
 
     def request(self, request_data):
         """
@@ -45,20 +52,20 @@ class RequestApi(object):
 
         respond = self.request(data)
         """
+        if self.proxies is None:
+            self.proxies = {}
         logger.info("未处理之前的参数所有请求参数：{}".format(str(request_data)))
         res = ""
         _data = deal_with_data(request_data)
         try:
-
             if _data["method"] in ["post", "put"]:
 
                 res = requests.request(method=_data["method"], url=_data["uri"],
                                        headers=header, json=_data["data"],
-                                       timeout=30)
-
+                                       timeout=30, proxies=self.proxies)
             elif _data["method"] in ["get", "delete"]:
                 res = requests.request(method=_data["method"], url=_data["uri"],
-                                       headers=header, params=_data["data"], timeout=30)
+                                       headers=header, params=_data["data"], timeout=30, proxies=self.proxies)
         except Exception:
             logger.error("请求的时候出错了出错了:{}".format(str(request_data)))
 
@@ -79,12 +86,6 @@ if __name__ == '__main__':
     r = RequestApi()
     a = {'id': 26, 'uri': '/api/v1/marketing/advertiser-accounts/collect/filtering/from/management', 'method': 'get',
          'data': {'page': 1, 'size': 20, 'sort': 'id',
-                  'filtering': [{"field": "system_status", "operator": "IN", "values": [None]},
-                                {"field": "account_name", "operator": "LIKE", "values": ["1642912301664260"],
-                                 "logic": "OR"},
-                                {"field": "corporation_name", "operator": "LIKE", "values": ["1642912301664260"],
-                                 "logic": "OR"}, {"field": "cast(account_id as varchar)", "operator": "LIKE",
-                                                  "values": ["1642912301664260"], "logic": "OR"}]}, 'assert': 1,
+                  'filtering': str([{"field": "system_status", "operator": "IN", "values":["Null"]}, {"field": "account_name", "operator": "LIKE", "values":["1642912301664260"], "logic": "OR"}, {"field": "corporation_name", "operator": "LIKE", "values":["1642912301664260"], "logic": "OR"}, {"field": "cast(account_id as varchar)", "operator": "LIKE", "values":["1642912301664260"], "logic": "OR"}])}, 'assert': 1,
          'describe': '查询投放庄户的id'}
     r.request(a)
-
