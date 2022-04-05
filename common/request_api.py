@@ -13,11 +13,16 @@ header = GC.get_header()
 execution_sql = ConnectDb()
 
 
-def deal_with_filtering(requests_data):
-    if "filtering" in requests_data["data"].keys():
-        filter_data = """{}""".format(str(requests_data["data"]["filtering"]))
-        requests_data["data"]["filtering"] = filter_data.replace("None", "null")
+def deal_with_filtering(data):
+    if "filtering" in data.keys():
+        filter_data = """{}""".format(str(data["filtering"]))
+        data["filtering"] = filter_data.replace("None", "null")
 
+
+def deal_with_advertiser_group_id(data):
+    if "advertiserGroupId" in data.keys():
+        advertiser_group_id = GC.get_pmp_id()
+        data["advertiserGroupId"] = advertiser_group_id
 
 
 def deal_with_data(request_data):
@@ -30,25 +35,26 @@ def deal_with_data(request_data):
     data = request_data["data"]
     uri = request_data["uri"]
     method = request_data["method"].lower()
-    request_data_type = type(request_data["data"])
 
-    if request_data_type == dict:
-        if "advertiserGroupId" in data.keys():
-            advertiser_group_id = GC.get_pmp_id()
-            data["advertiserGroupId"] = advertiser_group_id
-    elif request_data_type == list:
-        for request_dict in request_data["data"]:
-            if "advertiserGroupId" in request_dict.keys():
-                advertiser_group_id = GC.get_pmp_id()
-                data["advertiserGroupId"] = advertiser_group_id
 
     if "http" in uri:
         url = uri
     else:
         url = gateway + uri
-    if "filtering" in request_data["data"].keys():
-        filter_data = """{}""".format(str(request_data["data"]["filtering"]))
-        request_data["data"]["filtering"] = filter_data.replace("None", "null")
+    # 查看请求参数的类型
+    request_data_type = type(data)
+    # 如果请求参数是dict类型参数
+    if request_data_type == dict:
+        # 改变项目id
+        deal_with_advertiser_group_id(data)
+        deal_with_filtering(data)
+
+    # 如果请求的body为列表，处理列表的数据
+    elif request_data_type == list:
+        for request_dict in request_data["data"]:
+            deal_with_advertiser_group_id(request_dict)
+            deal_with_filtering(request_dict)
+
     _data["uri"] = url
     _data["method"] = method
     _data["data"] = data
