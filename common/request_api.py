@@ -1,5 +1,4 @@
 # coding=utf-8
-import json
 
 import requests
 
@@ -14,6 +13,13 @@ header = GC.get_header()
 execution_sql = ConnectDb()
 
 
+def deal_with_filtering(requests_data):
+    if "filtering" in requests_data["data"].keys():
+        filter_data = """{}""".format(str(requests_data["data"]["filtering"]))
+        requests_data["data"]["filtering"] = filter_data.replace("None", "null")
+
+
+
 def deal_with_data(request_data):
     _data = {}
     if "id" in request_data.keys():
@@ -24,14 +30,25 @@ def deal_with_data(request_data):
     data = request_data["data"]
     uri = request_data["uri"]
     method = request_data["method"].lower()
-    if "advertiserGroupId" in data.keys():
-        advertiser_group_id = GC.get_pmp_id()
-        data["advertiserGroupId"] = advertiser_group_id
+    request_data_type = type(request_data["data"])
+
+    if request_data_type == dict:
+        if "advertiserGroupId" in data.keys():
+            advertiser_group_id = GC.get_pmp_id()
+            data["advertiserGroupId"] = advertiser_group_id
+    elif request_data_type == list:
+        for request_dict in request_data["data"]:
+            if "advertiserGroupId" in request_dict.keys():
+                advertiser_group_id = GC.get_pmp_id()
+                data["advertiserGroupId"] = advertiser_group_id
+
     if "http" in uri:
         url = uri
     else:
         url = gateway + uri
-
+    if "filtering" in request_data["data"].keys():
+        filter_data = """{}""".format(str(request_data["data"]["filtering"]))
+        request_data["data"]["filtering"] = filter_data.replace("None", "null")
     _data["uri"] = url
     _data["method"] = method
     _data["data"] = data
@@ -39,10 +56,13 @@ def deal_with_data(request_data):
     return _data
 
 
+proxies = {'http': 'http://localhost:8888', 'https': 'http://localhost:8888'}
+
+
 class RequestApi(object):
     def __init__(self):
         # 为了抓包使用了代理
-        self.proxies = {'http': 'http://localhost:8888', 'https': 'http://localhost:8888'}
+
         # self.proxies = None
         pass
 
@@ -52,20 +72,20 @@ class RequestApi(object):
 
         respond = self.request(data)
         """
-        if self.proxies is None:
-            self.proxies = {}
         logger.info("未处理之前的参数所有请求参数：{}".format(str(request_data)))
         res = ""
         _data = deal_with_data(request_data)
+
         try:
             if _data["method"] in ["post", "put"]:
 
                 res = requests.request(method=_data["method"], url=_data["uri"],
                                        headers=header, json=_data["data"],
-                                       timeout=30, proxies=self.proxies)
+                                       timeout=30)
             elif _data["method"] in ["get", "delete"]:
+
                 res = requests.request(method=_data["method"], url=_data["uri"],
-                                       headers=header, params=_data["data"], timeout=30, proxies=self.proxies)
+                                       headers=header, params=_data["data"], timeout=30)
         except Exception:
             logger.error("请求的时候出错了出错了:{}".format(str(request_data)))
 
@@ -86,6 +106,12 @@ if __name__ == '__main__':
     r = RequestApi()
     a = {'id': 26, 'uri': '/api/v1/marketing/advertiser-accounts/collect/filtering/from/management', 'method': 'get',
          'data': {'page': 1, 'size': 20, 'sort': 'id',
-                  'filtering': str([{"field": "system_status", "operator": "IN", "values":["Null"]}, {"field": "account_name", "operator": "LIKE", "values":["1642912301664260"], "logic": "OR"}, {"field": "corporation_name", "operator": "LIKE", "values":["1642912301664260"], "logic": "OR"}, {"field": "cast(account_id as varchar)", "operator": "LIKE", "values":["1642912301664260"], "logic": "OR"}])}, 'assert': 1,
+                  'filtering': [{'field': 'system_status', 'operator': 'IN', 'values': [None]},
+                                {'field': 'account_name', 'operator': 'LIKE', 'values': ['1642912301664260'],
+                                 'logic': 'OR'},
+                                {'field': 'corporation_name', 'operator': 'LIKE', 'values': ['1642912301664260'],
+                                 'logic': 'OR'}, {'field': 'cast(account_id as varchar)', 'operator': 'LIKE',
+                                                  'values': ['1642912301664260'], 'logic': 'OR'}]}, 'assert': 1,
          'describe': '查询投放庄户的id'}
+
     r.request(a)

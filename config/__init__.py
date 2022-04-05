@@ -7,8 +7,7 @@ from config.get_config_data import GetConfig
 from config.get_verification_code import get_verify_code
 
 TOKEN = {
-    'token': 'Bearer eyJhbGciOiJIUzUxMiJ9'
-             '.eyJzdWIiOiJ5aXllX2FnZW50X3Rlc3QiLCJ1aWQiOjEsImFnZW50SWQiOiJkYnEiLCJhY2Nlc3NfdG9rZW4iOiJjNmQyM2UyNjg5ZDA0NGM5YmIzZWVhZjZmNmNmZjZhNCIsInN5c3RlbV90eXBlIjoiYWdlbnRfcHJpdmF0ZSIsImV4cCI6MTY0OTc2NTYwOX0.RJ8q9gOBRQEH3NJx_8mFLVw3bvB8DBGEYdg85bjxxaTa7ibgJFk3hQXomwtNCi_8-TtQurVh-h1pYdpFWgLS3A'}
+    'token': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5aXllX2FnZW50X3Rlc3QiLCJ1aWQiOjEsImFnZW50SWQiOiJkYnEiLCJhY2Nlc3NfdG9rZW4iOiJhNjQyNDEzNjdhNDI0NjNlOTNkYTUwNjBmYzU5NWYzMiIsInN5c3RlbV90eXBlIjoiYWdlbnRfcHJpdmF0ZSIsImV4cCI6MTY1MDE4MjUwM30.AWtqeQYyl94la44n4X0OuodqQmzYs9s4UaH3aa5c4vMsYNb4n9pEuq1UNFllqW91cf7K8Q5dt3erAaHtUw6iYg'}
 PMP_ID = ""
 get_config = GetConfig()
 gateway = get_config.get_config_data("USER")["HOST"]
@@ -22,7 +21,7 @@ class GetToken(object):
         global TOKEN
         # TOKEN = self.get_token()
         global PMP_ID
-        PMP_ID = self.get_pmp_id()
+        # PMP_ID = self.get_pmp_id()
 
     def get_verify_code(self):
 

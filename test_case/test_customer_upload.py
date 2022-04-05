@@ -15,13 +15,21 @@ class TestCustomerUpload(unittest.TestCase, RequestApi):
 
     # 配置上报
     def test_02_configure_upload(self):
-        get_channel_data = get_request_data("/api/v1/landing-page/landing-channel/batch/collect/filter/new")
         # 获取所有新建的渠道
+        get_channel_data = get_request_data("/api/v1/landing-page/landing-channel/batch/collect/filter/new")
         channel_list = self.request(get_channel_data[0])
+
         # 查询advertiserAccountId
         advertiserAccountId_params = get_request_data("/api/v1/marketing/advertiser-accounts/collect/filtering/from/management")
         data = self.request(advertiserAccountId_params[0])
-        print(data.text)
+
+        # 设置上报的条件
+        upload_data = get_request_data("/api/v1/landing-page/upload-configuration/collect/batch-save")
+        self.request(upload_data[1])
+
+
+
+
 
 
 
