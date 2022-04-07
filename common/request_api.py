@@ -95,8 +95,8 @@ class RequestApi(object):
             logger.error("请求的时候出错了出错了:{}".format(str(request_data)))
 
         logger.info(
-            "请求方式：{}  请求头：{} 请求地址：{} 请求参数：{}  \n返回参数：{}".format(_data["method"], header, _data["uri"],
-                                                                 _data["data"], res.text))
+            " 请求地址：{} 请求参数：{} 请求方式：{}  请求头：{} \n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t 返回参数：{}".format(
+                _data["uri"], _data["data"],_data["method"], header, res.text))
 
         if request_data["id"] != 999:
             execution_sql.update_data(
