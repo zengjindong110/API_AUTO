@@ -39,7 +39,7 @@ class TestCustomerUpload(unittest.TestCase, RequestApi):
         accountId = upload_data[0]["accountId"]
         # 渠道id
         channelId = ""
-
+        # id字段是更新上报配置的时候才会有,新设置上报配置没有id字段
         id = ""
         # 广告平台id的id
         advertiserAccountId = ""
