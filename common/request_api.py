@@ -36,7 +36,6 @@ def deal_with_data(request_data):
     uri = request_data["uri"]
     method = request_data["method"].lower()
 
-
     if "http" in uri:
         url = uri
     else:
@@ -96,9 +95,8 @@ class RequestApi(object):
             logger.error("请求的时候出错了出错了:{}".format(str(request_data)))
 
         logger.info(
-            "请求方式：{}  请求头：{} 请求地址：{} 请求参数：{}  返回参数：{}".format(_data["method"], header, _data["uri"],
-                                                              _data["data"],
-                                                              res.text))
+            "请求方式：{}  请求头：{} 请求地址：{} 请求参数：{}  \n返回参数：{}".format(_data["method"], header, _data["uri"],
+                                                                 _data["data"], res.text))
 
         if request_data["id"] != 999:
             execution_sql.update_data(

@@ -1,5 +1,4 @@
 import json
-
 import requests
 
 from common.log import Log
@@ -7,7 +6,7 @@ from config.get_config_data import GetConfig
 from config.get_verification_code import get_verify_code
 
 TOKEN = {
-    'token': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5aXllX2FnZW50X3Rlc3QiLCJ1aWQiOjEsImFnZW50SWQiOiJkYnEiLCJhY2Nlc3NfdG9rZW4iOiJhNjQyNDEzNjdhNDI0NjNlOTNkYTUwNjBmYzU5NWYzMiIsInN5c3RlbV90eXBlIjoiYWdlbnRfcHJpdmF0ZSIsImV4cCI6MTY1MDE4MjUwM30.AWtqeQYyl94la44n4X0OuodqQmzYs9s4UaH3aa5c4vMsYNb4n9pEuq1UNFllqW91cf7K8Q5dt3erAaHtUw6iYg'}
+    'token': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoaGwiLCJ1aWQiOjQ3LCJhZ2VudElkIjoiZGJxIiwiYWNjZXNzX3Rva2VuIjoiYTI0MTI5NTYyODc5NGZiNTkzZmQzZGVjMzE1MDkzNDIiLCJzeXN0ZW1fdHlwZSI6ImFnZW50X3ByaXZhdGUiLCJleHAiOjE2NTA1MDY0NjV9.KWOopL3DsO_KO3op0YQVnO-LzD9Qs4pU5hG0DPj82BfavCs-7aCVqGvPoLFfhiaS6TGpIGUfMofz_4g0gFMygQ'}
 PMP_ID = ""
 get_config = GetConfig()
 gateway = get_config.get_config_data("USER")["HOST"]

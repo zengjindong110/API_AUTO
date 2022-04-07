@@ -19,16 +19,16 @@ class TestCreatePmp(unittest.TestCase, RequestApi):
 
         respond = json.loads(self.request(data[0]).text)
         # 判断搜索pmp账号接口有没有“api_test”的账号，没有的返回false，有就返回true
-
-        if respond["records"]:
-            repose = respond["records"][0]
-
-            return repose
-        else:
-            return False
+        pass
+        # if respond["records"]:
+        #     repose = respond["records"][0]
+        #
+        #     return repose
+        # else:
+        #     return False
 
     def test_create_user(self):
-
+        pass
         advertiserGroupId = self.check_user()
         if advertiserGroupId:
             self.assertTrue(1)
