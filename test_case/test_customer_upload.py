@@ -1,6 +1,5 @@
 # coding=utf8
 from test_case import *
-import ddt
 
 
 class TestCustomerUpload(unittest.TestCase, RequestApi):
@@ -23,7 +22,7 @@ class TestCustomerUpload(unittest.TestCase, RequestApi):
         landingPageId = "732"
         # 获取所有新建的渠道
         get_channel_data = get_request_data("/api/v1/landing-page/landing-channel/batch/collect/filter/new")
-        get_channel_data["landingPageId"] = landingPageId
+        # get_channel_data[0]["landingPageId"] = landingPageId
 
         channel_list = self.request(get_channel_data[0])
 
@@ -35,6 +34,10 @@ class TestCustomerUpload(unittest.TestCase, RequestApi):
         # 设置上报的条件
         upload_data = get_request_data("/api/v1/landing-page/upload-configuration/collect/batch-save")
         # 需要动态传入的数据
+        #  需要传入以下数据
+        # accountId = 1642912301664260 advertiserAccountId=302 channelId=1861 landingPageId=732
+        # oceanEngineUploadType=EVENT_MANAGE platformId=OCEAN_ENGINE uploadConfigurationTypesList uploadType=REAL_TIME
+
         # 广告平台id
         accountId = upload_data[0]["accountId"]
         # 渠道id
