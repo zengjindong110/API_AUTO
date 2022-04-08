@@ -1,8 +1,48 @@
 # coding=utf8
 from test_case import *
+from ddt import ddt
+from ddt import data
+
+all_upload_data = []
 
 
+# @ddt
 class TestCustomerUpload(unittest.TestCase, RequestApi):
+    @classmethod
+    def setUpClass(cls) -> None:
+        global all_upload_data
+
+        all_upload_data = cls().make_upload_data()
+
+    # 初始化上报的参数
+
+    def make_upload_data(self):
+        all_request_data = get_request_data("/api/v1/landing-page/upload-configuration/collect/batch-save")
+        # 落地页id
+        landingPageId = "732"
+
+        # accountId = 1642912301664260 advertiserAccountId=302 channelId=1861 landingPageId=732
+        # oceanEngineUploadType=EVENT_MANAGE platformId=OCEAN_ENGINE uploadConfigurationTypesList uploadType=REAL_TIME
+
+        for index in range(len(all_request_data)):
+            # 获取accountId
+            accountId = all_request_data[index]["data"][0]["accountId"]
+            # 获取advertiserAccountId
+            advertiserAccountId_params = get_request_data(
+                "/api/v1/marketing/advertiser-accounts/collect/filtering/from/management")
+            advertiserAccountId_params[0]["data"]["filtering"][1]["values"] = [accountId]
+            advertiserAccountId_params[0]["data"]["filtering"][2]["values"] = [accountId]
+            advertiserAccountId_params[0]["data"]["filtering"][3]["values"] = [accountId]
+            advertiserAccountId = self.request(advertiserAccountId_params[0]).json()["records"][0]["id"]
+            # 获取所有的渠道id
+            get_channel_data = get_request_data("/api/v1/landing-page/landing-channel/batch/collect/filter/new")
+            get_channel_data[0]["landingPageId"] = landingPageId
+            channel_list = [i["id"] for i in self.request(get_channel_data[0]).json()["records"]]
+            channelId = channel_list[index]
+            all_request_data[index]["data"][0]["channelId"] = channelId
+            all_request_data[index]["data"][0]["advertiserAccountId"] = advertiserAccountId
+        return all_request_data
+
     # 新建渠道
     def test_01_create_channel(self):
         create_channel_request_data = get_request_data("/api/v1/landing-page/landing-channel/batch/save")
@@ -11,50 +51,17 @@ class TestCustomerUpload(unittest.TestCase, RequestApi):
         replace_data(create_channel_request_data, create_channel_data)
         # 创建落地页渠道地址
         resa = self.request(create_channel_request_data[0])
-        print(resa)
+        print(all_upload_data)
+    @data(all_upload_data)
+    def test_02_configure_upload(self, upload_data):
+        print(1112,upload_data)
+        #
+        # self.request(upload_data)
 
-    # 配置上报
-    a = get_request_data("/index")
-    b = dict(a)
-
-    def test_02_configure_upload(self):
-        # 落地页id
-        landingPageId = "732"
-        # 获取所有的渠道id
-        get_channel_data = get_request_data("/api/v1/landing-page/landing-channel/batch/collect/filter/new")
-        get_channel_data[0]["landingPageId"] = landingPageId
-        channel_list = [i["id"] for i in self.request(get_channel_data[0]).json()["records"]]
-
-        # 获取设置上报的条件
-        upload_data = get_request_data("/api/v1/landing-page/upload-configuration/collect/batch-save")
-
-        # 需要动态传入的数据
-        #  需要传入以下数据
-        # accountId = 1642912301664260 advertiserAccountId=302 channelId=1861 landingPageId=732
-        # oceanEngineUploadType=EVENT_MANAGE platformId=OCEAN_ENGINE uploadConfigurationTypesList uploadType=REAL_TIME
-
-        # 媒体平台广告账户id
-        accountId = upload_data[0]["data"][0]["accountId"]
-
-        # 查询advertiserAccountId
-        advertiserAccountId_params = get_request_data(
-            "/api/v1/marketing/advertiser-accounts/collect/filtering/from/management")
-        advertiserAccountId_params[0]["data"]["filtering"][1]["values"] = [accountId]
-        advertiserAccountId_params[0]["data"]["filtering"][2]["values"] = [accountId]
-        advertiserAccountId_params[0]["data"]["filtering"][3]["values"] = [accountId]
-        advertiserAccountId = self.request(advertiserAccountId_params[0]).json()["records"][0]["id"]
+    def visit_landing_page(self):
+        pass
 
 
-        # id字段是更新上报配置的时候才会有,新设置上报配置没有id字段
-        id = ""
-
-        # 渠道id
-        channelId = channel_list[0]
-        upload_data[0]["data"][0]["channelId"] = channelId
-        # 媒体平台广告账户id的id
-        upload_data[0]["data"][0]["advertiserAccountId"] = advertiserAccountId
-        self.request(upload_data[0])
-
-
-def visit_landing_page(self):
-    pass
+if __name__ == '__main__':
+    print(all_upload_data)
+    unittest.main()
