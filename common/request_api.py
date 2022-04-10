@@ -13,12 +13,14 @@ header = GC.get_header()
 execution_sql = ConnectDb()
 
 
+# 把参入参数中的filetering参数中的None改成null
 def deal_with_filtering(data):
     if "filtering" in data.keys():
         filter_data = """{}""".format(str(data["filtering"]))
         data["filtering"] = filter_data.replace("None", "null")
 
 
+# 把接口中含有pmpid的字段都改成固定的pmpid
 def deal_with_advertiser_group_id(data):
     if "advertiserGroupId" in data.keys():
         advertiser_group_id = GC.get_pmp_id()

@@ -7,7 +7,7 @@ from config.get_config_data import GetConfig
 from config.get_verification_code import get_verify_code
 
 TOKEN = {
-    'token': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoaGwiLCJ1aWQiOjQ3LCJhZ2VudElkIjoiZGJxIiwiYWNjZXNzX3Rva2VuIjoiNzBhNjQ2NTZmNTJmNDBkMDg4NzhhMDIxM2QzMDZlYTkiLCJzeXN0ZW1fdHlwZSI6ImFnZW50X3ByaXZhdGUiLCJleHAiOjE2NTA1NDgxMTl9.j6af7xUoT26CLFUySpcYGj3iLzkRUUdKHzhfUj2p2syQyUw9wrqHjON5PoRjU5HidziF6H6DKG4iWIwEtqzjQw'}
+    'token': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoaGwiLCJ1aWQiOjQ3LCJhZ2VudElkIjoiZGJxIiwiYWNjZXNzX3Rva2VuIjoiNWRkNmM3MjdkYTViNGQyZTlkYzZmNGJlMjBkZmM2YjkiLCJzeXN0ZW1fdHlwZSI6ImFnZW50X3ByaXZhdGUiLCJleHAiOjE2NTA3NzE1MzV9.CnlOU0X7eHsObAfNu3yxPxKFZaikm2DSTCzFYsTASEKjy9CgnaS87Nv6-8ZOMhnbIY_Z6UNVLyqTJcnBbOpLRA'}
 PMP_ID = ""
 get_config = GetConfig()
 gateway = get_config.get_config_data("USER")["HOST"]

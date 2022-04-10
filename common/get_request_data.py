@@ -8,13 +8,13 @@ conn = ConnectDb()
 
 def select_respond(uri=None, describe=None):
     if not describe:
-        sql = "SELECT  respond  FROM asp_saas_zjd.api_test WHERE uri='{uri}'".format(
+        sql = "SELECT  respond  FROM asp_saas_zjd.api_test WHERE uri='{uri}' and is_delete='0'".format(
             uri=uri)
     elif not uri:
-        sql = "SELECT respond FROM asp_saas_zjd.api_test WHERE describe='{describe}' ".format(
+        sql = "SELECT respond FROM asp_saas_zjd.api_test WHERE describe='{describe}' and is_delete='0'".format(
             describe=describe)
     else:
-        sql = "SELECT respond FROM asp_saas_zjd.api_test WHERE uri='{uri}' and describe='{describe}'".format(
+        sql = "SELECT respond FROM asp_saas_zjd.api_test WHERE uri='{uri}' and describe='{describe}' and is_delete='0'".format(
             uri=uri, describe=describe)
 
     respond = conn.select_data(sql)
@@ -26,13 +26,13 @@ def select_respond(uri=None, describe=None):
 def get_request_data(uri=None, describe=None):
     li = list()
     if not describe:
-        sql = "SELECT  uri,method, data,assert,describe,id  FROM asp_saas_zjd.api_test WHERE uri='{uri}'".format(
+        sql = "SELECT  uri,method, data,assert,describe,id  FROM asp_saas_zjd.api_test WHERE uri='{uri}' and is_delete='0'".format(
             uri=uri)
     elif not uri:
-        sql = "SELECT uri,method, data,assert,describe,id FROM asp_saas_zjd.api_test WHERE describe='{describe}' ".format(
+        sql = "SELECT uri,method, data,assert,describe,id FROM asp_saas_zjd.api_test WHERE describe='{describe}' and is_delete='0'".format(
             describe=describe)
     else:
-        sql = "SELECT uri,method, data,assert,describe,id FROM asp_saas_zjd.api_test WHERE uri='{uri}' and describe='{describe}'".format(
+        sql = "SELECT uri,method, data,assert,describe,id FROM asp_saas_zjd.api_test WHERE uri='{uri}' and describe='{describe}' and is_delete='0'".format(
             uri=uri, describe=describe)
 
     search_data = conn.select_data(sql)
@@ -55,5 +55,5 @@ def get_request_data(uri=None, describe=None):
 
 
 if __name__ == '__main__':
-    a = select_respond("/api/v1/landing-page/widget-templates/PMP/ORDER_TYPE")
+    a = get_request_data("/api/v1/landing-page/upload-configuration/collect/batch-save")
     print(a)
