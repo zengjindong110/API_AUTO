@@ -17,7 +17,7 @@ prod 为线上环境
 
 if __name__ == '__main__':
 
-    test_suite = unittest.defaultTestLoader.discover('./test_case', pattern='test_cus*.py')
+    test_suite = unittest.defaultTestLoader.discover('./test_case', pattern='test_*.py')
 
     result = BeautifulReport(test_suite)
 

@@ -1,6 +1,7 @@
 # coding=utf8
-from test_case import *
 import json
+
+from test_case import *
 
 
 class TestCreatePmp(unittest.TestCase, RequestApi):
@@ -17,28 +18,31 @@ class TestCreatePmp(unittest.TestCase, RequestApi):
 
         data = get_request_data("/api/v1/marketing/advertiser-account-groups/collect/list")
 
-        respond = json.loads(self.request(data[0]).text)
+        # respond = json.loads(self.request(data[0]).text)
         # 判断搜索pmp账号接口有没有“api_test”的账号，没有的返回false，有就返回true
-        pass
-        # if respond["records"]:
-        #     repose = respond["records"][0]
-        #
-        #     return repose
-        # else:
-        #     return False
+        # pass
+        respond = self.request(data[0])
+        if respond["records"]:
+            repose = respond["records"][0]
+
+            return repose
+        else:
+            return False
 
     def test_create_user(self):
-        pass
-        advertiserGroupId = self.check_user()
-        if advertiserGroupId:
-            self.assertTrue(1)
-            return advertiserGroupId
+        """pmp已经创建成功默认该用例通过"""
+        is_true = self.check_user()
+
+        if is_true:
+
+            self.assertTrue(True, "已经创建了test_api的pmp")
+
         else:
             advertiserGroupId = self.request({'uri': "/api/v1/marketing/advertiser-account-groups", 'method': 'POST',
                                               'data': {"name": "api_test", "advertiserAccountIndustryId": 125,
                                                        "managerList": [],
                                                        "leaderId": None,
-                                                       "advertiserAccountIds": [], "target": []},"id":9999})
+                                                       "advertiserAccountIds": [], "target": []}, "id": 9999})
             self.assertEqual(advertiserGroupId.status_code, 200, msg="创建pmp账号")
 
 

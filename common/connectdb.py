@@ -86,7 +86,7 @@ class ConnectDb(object):
 
     def get_pmp_id(self):
         pmp_id = json.loads(self.select_data(
-            """SELECT respond FROM asp_saas_zjd.api_test WHERE uri = '/api/v1/marketing/advertiser-account-groups/collect/list' """)[
+            """SELECT respond FROM api_test WHERE uri = '/api/v1/marketing/advertiser-account-groups/collect/list' """)[
                                 0][0])["records"][0]["id"]
 
         return pmp_id
@@ -94,7 +94,7 @@ class ConnectDb(object):
 
 if __name__ == '__main__':
     c = ConnectDb()
-    # x = c.select_data(
-    #     """SELECT respond FROM asp_saas_zjd.api_test WHERE uri = '/api/v1/marketing/advertiser-account-groups/collect/list' """)
-    # print(x)
+    x = c.select_data(
+        """SELECT respond FROM api_test WHERE uri = '/api/v1/marketing/advertiser-account-groups/collect/list' """)
+    print(x)
     print(c.get_pmp_id())
