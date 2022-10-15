@@ -13,9 +13,9 @@ CREATE TABLE `api_auto_test` (
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 创建pg表
-
+CREATE SEQUENCE id_seq START 1;
 CREATE TABLE "public"."api_auto_test" (
-  "id" int8 NOT NULL,
+  "id" int8 NOT NULL DEFAULT nextval('id_seq'::regclass),
   "data" json,
   "assert" json,
   "uri" varchar(255) COLLATE "pg_catalog"."default",

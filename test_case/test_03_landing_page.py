@@ -32,7 +32,7 @@ class TestCreateLandingPages(unittest.TestCase, RequestApi):
         self.assertEqual(landing_page_data["id"], landing_page_id, msg="通过返回的id来进行断言")
 
     def test_03_access_landing_page(self):
-        """访问落地页"""
+        """访问落地页url"""
         landing_page_channel = get_request_data("/api/v1/landing-page/landing-channel/batch/collect/filter/new")
         replace_data(landing_page_channel,
                      {'landingPageId': landing_page_id, 'startTime': start_time(), 'endTime': end_time()})
