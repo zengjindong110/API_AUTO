@@ -19,6 +19,7 @@ class Template(unittest.TestCase, RequestApi):
         order_tem_name = now_date()
         replace_data(create_order_data, {'name': order_tem_name})
         create_order_name_respond = self.request(create_order_data[0])
+        print(create_order_name_respond)
         # 设置断言如果返回的字段name里面有订单模板名称表示通过
         self.assertEqual(create_order_name_respond["name"], order_tem_name, msg="通过返回值里面的name字段进行断言")
         global order_template_id
@@ -26,11 +27,11 @@ class Template(unittest.TestCase, RequestApi):
 
     def test_02_create_order_template(self):
         """将订单模板里面添加内容"""
-        create_order_data = get_request_data("https://lpedit-asptest.yiye.ai/api/v1/landing-page/widget-templates/pmp/ORDER_TYPE/{}")
-
-        create_order_url = "https://lpedit-asptest.yiye.ai/api/v1/landing-page/widget-templates/pmp/ORDER_TYPE/{}".format(str(order_template_id))
+        create_order_data = get_request_data("/api/v1/landing-page/widget-templates/pmp/FORM_TYPE/{}")
+        create_order_url = "/api/v1/landing-page/widget-templates/pmp/FORM_TYPE/{}".format(str(order_template_id))
         create_order_data[0].update({"uri": create_order_url})
         create_order_respond = self.request(create_order_data[0])
+        print(create_order_respond)
         self.assertTrue(create_order_respond['name'],msg="通过返回的name断言")
 
     def test_03_create_form_template(self):
@@ -47,9 +48,10 @@ class Template(unittest.TestCase, RequestApi):
 
     def test_04_create_form_template(self):
         """将表单模板里面添加内容"""
-        create_form_data = get_request_data("https://lpedit-asptest.yiye.ai/api/v1/landing-page/widget-templates/pmp/FORM_TYPE/{}")
+        create_form_data = get_request_data("/api/v1/landing-page/widget-templates/pmp/FORM_TYPE/{}")
         print(create_form_data)
-        create_form_url = "https://lpedit-asptest.yiye.ai/api/v1/landing-page/widget-templates/pmp/FORM_TYPE/{}".format(str(form_template_id))
+        create_form_url = "/api/v1/landing-page/widget-templates/pmp/FORM_TYPE/{}".format(str(form_template_id))
         create_form_data[0].update({"uri": create_form_url})
         create_form_respond = self.request(create_form_data[0])
         self.assertTrue(create_form_respond['name'],msg="通过返回的name断言")
+

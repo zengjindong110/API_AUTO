@@ -113,7 +113,7 @@ class RequestApi(object):
         try:
             json.loads(res.text)
             execution_sql.update_data(
-                """UPDATE api_test SET respond = '{}' WHERE id = {}""".format(res.text, request_data["id"]))
+                """UPDATE api_auto_test SET respond = '{}' WHERE id = {}""".format(res.text, request_data["id"]))
         except ValueError:
             return res
         return res.json()

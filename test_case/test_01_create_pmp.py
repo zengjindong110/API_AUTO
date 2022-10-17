@@ -22,6 +22,7 @@ class TestCreatePmp(unittest.TestCase, RequestApi):
         # 判断搜索pmp账号接口有没有“api_test”的账号，没有的返回false，有就返回true
         # pass
         respond = self.request(data[0])
+        print(respond)
         if respond["records"]:
             repose = respond["records"][0]
 
