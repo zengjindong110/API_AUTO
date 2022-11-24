@@ -1,12 +1,14 @@
 __author__ = "Airtest"
 
 import logging
+import sys
 
 from airtest.core.api import *
 
 from common.log import Log
 
 loggers = Log(__file__)
+
 # 调整airtet的日志等级
 logger = logging.getLogger("airtest")
 logger.setLevel(logging.ERROR)
@@ -59,15 +61,18 @@ class MobilePhone(object):
                 self.phone = None
             else:
                 self.phone = phone
-            print(phone_statue)
 
         else:
-            loggers.error("手机没有链接上,连接手机后再试")
+            loggers.error("手机未连接或者未开启USB调试")
+            sys.exit()
 
     def mobile(self):
         return self.phone
 
 
+if __name__ == '__main__':
+    a = MobilePhone()
+    a.mobile()
 
 # dev.shell("am start -a android.intent.action.VIEW -d http://bbb.dbq.yiye.ai/dbq/slLPIPXr?_cl=ffcf")
 # sleep(3)
