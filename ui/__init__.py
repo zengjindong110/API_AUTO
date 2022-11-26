@@ -11,7 +11,7 @@ loggers = Log(__file__)
 
 # 调整airtet的日志等级
 logger = logging.getLogger("airtest")
-logger.setLevel(logging.ERROR)
+logger.setLevel(logging.DEBUG)
 
 # 初始化airtet
 auto_setup(__file__)
@@ -23,8 +23,10 @@ class MobilePhone(object):
 
         try:
             phone = connect_device("Android:///")
+            wake()
         except IndexError as e:
             phone = None
+
         phone_statue = []
         if phone:
             # 查看手机里面是否安装今日头条
@@ -55,10 +57,22 @@ class MobilePhone(object):
                 loggers.info("手机未锁定+True")
             else:
                 phone_statue.append(False)
-                loggers.info("手机以上锁,先解锁 +False")
+                loggers.error("手机以上锁,先解锁 +False")
+            try:
+                browser = phone.path_app("com.android.browser")
+            except:
+                browser = False
+            if browser:
+                loggers.error(
+                    "检查手机上是否存在默认的浏览器，如果执行--  adb shell pm uninstall -k --user 0 com.android.browser 进行删除 +False ")
+                phone_statue.append(False)
+            else:
+                loggers.info("手机默认的浏览器已经卸载 +True")
+                phone_statue.append(True)
 
             if False in phone_statue:
                 self.phone = None
+                sys.exit()
             else:
                 self.phone = phone
 
