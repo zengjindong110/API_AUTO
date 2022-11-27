@@ -6,7 +6,7 @@ logger = Log(__file__)
 
 
 
-class H5Action(MobilePhone):
+class H5Action(object):
     @staticmethod
     def _wait(v, timeout, intervalfunc=None):
         try:
@@ -18,7 +18,7 @@ class H5Action(MobilePhone):
         return address
 
     def get_now_activity(self):
-        return self.phone.shell("dumpsys window | grep mCurrentFocus")
+        return phone.shell("dumpsys window | grep mCurrentFocus")
 
     @staticmethod
     def image_name(image_name):
@@ -55,7 +55,7 @@ class H5Action(MobilePhone):
         open_url = landing_page_url + self.random_click_id()
         logger.info("使用adb命令打开的页面的地址{}".format(open_url))
         # 使用adb命令打开落地页
-        self.phone.shell(
+        phone.shell(
             "am start -a android.intent.action.VIEW -d '{}'".format(open_url))
         # 先停止今日头条app的运行
         stop_app("com.ss.android.article.news")

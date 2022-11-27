@@ -1,7 +1,5 @@
 from poco.drivers.android.uiautomation import AndroidUiautomationPoco
-
-from ui.mobile_phone import *
-
+from ui import *
 poco = AndroidUiautomationPoco(use_airtest_input=True, screenshot_each_action=False)
 
 logger = Log(__file__)
@@ -14,7 +12,7 @@ logger = Log(__file__)
 """
 
 
-class AppletAction(MobilePhone):
+class AppletAction(object):
 
     def check_page(self):
         # 获取当前页面的activition
