@@ -1,10 +1,7 @@
-__author__ = "Airtest"
-
 import logging
-
 import sys
-from airtest.core.api import *
 
+from airtest.core.api import *
 from common.log import Log
 
 loggers = Log(__file__)
@@ -21,6 +18,10 @@ try:
     wake()
 except IndexError as e:
     phone = None
+
+"""
+初始化的时候检查设备的状态
+"""
 
 phone_statue = []
 if phone:
@@ -73,8 +74,6 @@ if phone:
 else:
     loggers.error("手机未连接或者未开启USB调试")
     sys.exit()
-
-
 
 # dev.shell("am start -a android.intent.action.VIEW -d http://bbb.dbq.yiye.ai/dbq/slLPIPXr?_cl=ffcf")
 # sleep(3)
