@@ -2,7 +2,7 @@ __author__ = "Airtest"
 
 import logging
 
-import sys
+
 from airtest.core.api import *
 
 from common.log import Log
@@ -15,10 +15,6 @@ logger.setLevel(logging.ERROR)
 
 # 初始化airtet
 auto_setup(__file__)
-
-
-
-
 class MobilePhone(object):
 
     def __init__(self):
@@ -89,11 +85,3 @@ class MobilePhone(object):
 if __name__ == '__main__':
     a = MobilePhone()
     a.mobile()
-
-
-
-
-# dev.shell("am start -a android.intent.action.VIEW -d http://bbb.dbq.yiye.ai/dbq/slLPIPXr?_cl=ffcf")
-# sleep(3)
-#
-# touch(Template(r"./image/to_applets.png", record_pos=(-0.007, -0.474), resolution=(1080, 2400)))

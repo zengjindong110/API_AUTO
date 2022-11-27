@@ -1,9 +1,10 @@
 import random
 
-from ui import *
+from ui.mobile_phone import *
 
 logger = Log(__file__)
 
+phone = MobilePhone()
 
 class H5Action(MobilePhone):
     @staticmethod
@@ -41,7 +42,7 @@ class H5Action(MobilePhone):
         # 修改巨量平台上的可用的click_id末尾的三个字符都可以正常使用的click_id,已验证
         _click_id.pop(random.randint(len(click_id) - 4, len(click_id) - 1))
         _click_id.append(s)
-        return "&click_id=" + "".join(
+        return "&clickid=" + "".join(
             _click_id) + "&test=api_test&adid=1750461105858564&creativeid=1750461105859595&creativetype=5"
 
     def open_land_page(self, landing_page_url):
@@ -55,7 +56,7 @@ class H5Action(MobilePhone):
         logger.info("使用adb命令打开的页面的地址{}".format(open_url))
         # 使用adb命令打开落地页
         self.phone.shell(
-            "am start -a android.intent.action.VIEW -d {}".format(open_url))
+            "am start -a android.intent.action.VIEW -d '{}'".format(open_url))
         # 先停止今日头条app的运行
         stop_app("com.ss.android.article.news")
         # 查看当前是不是在今日头条打开落地页
