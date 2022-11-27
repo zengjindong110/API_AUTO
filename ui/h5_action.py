@@ -1,10 +1,10 @@
 import random
 
-from ui.mobile_phone import *
+from ui import *
 
 logger = Log(__file__)
 
-phone = MobilePhone()
+
 
 class H5Action(MobilePhone):
     @staticmethod

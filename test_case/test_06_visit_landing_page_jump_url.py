@@ -2,7 +2,7 @@
 import json
 
 from test_case import *
-from ui.applet_add_friends import *
+from ui import *
 
 class VisitLandingPageJumpUrl(unittest.TestCase, RequestApi,AddFriend):
 

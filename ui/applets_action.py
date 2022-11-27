@@ -38,20 +38,36 @@ class AppletAction(MobilePhone):
             loggers.error(f"小程序里面的二维码没有识别到，检查二维码{e}")
         touch(qr_code_address, duration=3)
 
-    def click_friends(slef):
+    @staticmethod
+    def click_friends():
         sleep(3)
         loggers.info("通过小程序长按后，点击好友名字")
-        poco("com.tencent.mm:id/ky_").wait_for_appearance(10)
-        poco("com.tencent.mm:id/ky_").click()
+        try:
 
-    def go_friends(self):
+            poco("com.tencent.mm:id/ky_").wait_for_appearance(10)
+
+        except:
+            loggers.error("使用poco没有识别出来com.tencent.mm:id/ky_控件，采用图片识别的方式")
+            touch(Template(r"./image/dakaiqiyemingpian.png", record_pos=(0.006, 0.767), resolution=(1440, 3200)))
+        else:
+            poco("com.tencent.mm:id/ky_").click()
+
+    @staticmethod
+    def go_friends():
         loggers.info("跳转到添加好友按钮的页面")
         # if "com.tencent.mm.plugin.profile.ui.ContactInfoUI" in now_dev:
-        a = poco(text="添加到通讯录").wait_for_appearance(100)
-        print(a)
-        poco(text="添加到通讯录").click()
-        poco(text="发消息").wait_for_appearance(10)
-        assert_equal(poco(text="发消息").exists(), True, "添加好友成功")
+        try:
+            poco(text="添加到通讯录").wait_for_appearance(20)
+        except:
+            loggers.error("使用poco没有识别出来'text=添加到通讯录'控件，采用图片识别的方式")
+
+            touch(Template(r"./image/add_to_address_book.png", record_pos=(0.006, 0.767), resolution=(1440, 3200)))
+        else:
+
+            poco(text="添加到通讯录").click()
+            poco(text="发消息").wait_for_appearance(10)
+        finally:
+            assert_equal(poco(text="发消息").exists(), True, "添加好友成功")
 
     def delete_friend(self):
         # poco(desc).wait_for_appearance(10)
@@ -89,4 +105,4 @@ class AppletAction(MobilePhone):
 
 if __name__ == '__main__':
     a = AppletAction()
-    a.add_friend()
+    a.go_friends()
