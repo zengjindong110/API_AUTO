@@ -46,7 +46,7 @@ class AppletAction(object):
 
         except:
             loggers.error("使用poco没有识别出来com.tencent.mm:id/ky_控件，采用图片识别的方式")
-            touch(Template(r"./image/dakaiqiyemingpian.png", record_pos=(0.006, 0.767), resolution=(1440, 3200)))
+            touch(Template(r"image/dakaiqiyemingpian1.png", record_pos=(0.006, 0.767), resolution=(1440, 3200)))
         else:
             poco("com.tencent.mm:id/ky_").click()
 
@@ -58,14 +58,20 @@ class AppletAction(object):
             poco(text="添加到通讯录").wait_for_appearance(20)
         except:
             loggers.error("使用poco没有识别出来'text=添加到通讯录'控件，采用图片识别的方式")
-
             touch(Template(r"./image/add_to_address_book.png", record_pos=(0.006, 0.767), resolution=(1440, 3200)))
         else:
 
             poco(text="添加到通讯录").click()
-            poco(text="发消息").wait_for_appearance(10)
+
         finally:
-            assert_equal(poco(text="发消息").exists(), True, "添加好友成功")
+            try:
+                poco(text="发消息").wait_for_appearance(10)
+                assert_equal(poco(text="发消息").exists(), True, "添加好友成功")
+            except:
+                loggers.error("使用poco没有识别出来'text=发消息'控件，采用图片faxiaoxi.png识别的方式")
+                assert_exists(Template(r"./image/faxiaoxi.png", record_pos=(0.044, 0.276), resolution=(1440, 3200)),
+                              "请填写测试点")
+
 
     def delete_friend(self):
         # poco(desc).wait_for_appearance(10)
