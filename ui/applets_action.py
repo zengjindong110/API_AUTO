@@ -16,13 +16,13 @@ class AppletAction(object):
 
     def check_page(self):
         # 获取当前页面的activition
-        now_dev = self.phone.shell("dumpsys window | grep mCurrentFocus")
+        now_dev = phone.shell("dumpsys window | grep mCurrentFocus")
         # com.tencent.mm.plugin.appbrand.ui.AppBrandUI 为添加好友的二维码页面
         if "com.tencent.mm.plugin.appbrand.ui.AppBrandUI" in now_dev or "com.tencent.mm.plugin.profile.ui.ContactInfoUI" in now_dev:
             loggers.info("当前在小程序环境，为小程序的二维码展示页面!!!!!")
         else:
             loggers.error("当前不在小程序环境!!!!!")
-            raise "当前不是小程序环境，检查脚本为什么没有跳转到小程序"
+            raise Exception("当前不是小程序环境，检查脚本为什么没有跳转到小程序")
 
     def long_touch_qr_code(self):
         sleep(10)
@@ -86,7 +86,7 @@ class AppletAction(object):
         poco("com.tencent.mm:id/guw").wait_for_appearance(10)
         poco("com.tencent.mm:id/guw").click()
         sleep(3)
-        now_dev = self.phone.shell("dumpsys window | grep mCurrentFocus")
+        now_dev = phone.shell("dumpsys window | grep mCurrentFocus")
         if "com.tencent.mm.plugin.appbrand.ui.AppBrandUI" in now_dev:
             assert_true(True, "好友删除成功")
 
