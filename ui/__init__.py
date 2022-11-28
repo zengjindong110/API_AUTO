@@ -2,9 +2,9 @@ import logging
 import sys
 
 from airtest.core.api import *
-from common.log import Log
+from common.log import Log as init_log
 
-loggers = Log(__file__)
+loggers = init_log(__file__)
 
 # 调整airtet的日志等级
 logger = logging.getLogger("airtest")
