@@ -61,7 +61,7 @@ class H5Action(object):
         phone.shell(
             "am start -a android.intent.action.VIEW -d '{}'".format(open_url))
 
-        _adb = print("am start -a android.intent.action.VIEW -d '{}'".format(open_url))
+        # _adb = print("am start -a android.intent.action.VIEW -d '{}'".format(open_url))
 
         # 查看当前是不是在今日头条打开落地页
         now_activity = self.get_now_activity()
