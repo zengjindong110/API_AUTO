@@ -16,13 +16,13 @@ class AppletAction(object):
 
     def check_page(self):
         # 获取当前页面的activition
-        now_dev = self.phone.shell("dumpsys window | grep mCurrentFocus")
+        now_dev = phone.shell("dumpsys window | grep mCurrentFocus")
         # com.tencent.mm.plugin.appbrand.ui.AppBrandUI 为添加好友的二维码页面
         if "com.tencent.mm.plugin.appbrand.ui.AppBrandUI" in now_dev or "com.tencent.mm.plugin.profile.ui.ContactInfoUI" in now_dev:
             loggers.info("当前在小程序环境，为小程序的二维码展示页面!!!!!")
         else:
             loggers.error("当前不在小程序环境!!!!!")
-            raise "当前不是小程序环境，检查脚本为什么没有跳转到小程序"
+            raise Exception("当前不是小程序环境，检查脚本为什么没有跳转到小程序")
 
     def long_touch_qr_code(self):
         sleep(10)
@@ -46,7 +46,7 @@ class AppletAction(object):
 
         except:
             loggers.error("使用poco没有识别出来com.tencent.mm:id/ky_控件，采用图片识别的方式")
-            touch(Template(r"./image/dakaiqiyemingpian.png", record_pos=(0.006, 0.767), resolution=(1440, 3200)))
+            touch(Template(r"image/dakaiqiyemingpian1.png", record_pos=(0.006, 0.767), resolution=(1440, 3200)))
         else:
             poco("com.tencent.mm:id/ky_").click()
 
@@ -58,14 +58,20 @@ class AppletAction(object):
             poco(text="添加到通讯录").wait_for_appearance(20)
         except:
             loggers.error("使用poco没有识别出来'text=添加到通讯录'控件，采用图片识别的方式")
-
             touch(Template(r"./image/add_to_address_book.png", record_pos=(0.006, 0.767), resolution=(1440, 3200)))
         else:
 
             poco(text="添加到通讯录").click()
-            poco(text="发消息").wait_for_appearance(10)
+
         finally:
-            assert_equal(poco(text="发消息").exists(), True, "添加好友成功")
+            try:
+                poco(text="发消息").wait_for_appearance(10)
+                assert_equal(poco(text="发消息").exists(), True, "添加好友成功")
+            except:
+                loggers.error("使用poco没有识别出来'text=发消息'控件，采用图片faxiaoxi.png识别的方式")
+                assert_exists(Template(r"./image/faxiaoxi.png", record_pos=(0.044, 0.276), resolution=(1440, 3200)),
+                              "请填写测试点")
+
 
     def delete_friend(self):
         # poco(desc).wait_for_appearance(10)
@@ -86,7 +92,7 @@ class AppletAction(object):
         poco("com.tencent.mm:id/guw").wait_for_appearance(10)
         poco("com.tencent.mm:id/guw").click()
         sleep(3)
-        now_dev = self.phone.shell("dumpsys window | grep mCurrentFocus")
+        now_dev = phone.shell("dumpsys window | grep mCurrentFocus")
         if "com.tencent.mm.plugin.appbrand.ui.AppBrandUI" in now_dev:
             assert_true(True, "好友删除成功")
 

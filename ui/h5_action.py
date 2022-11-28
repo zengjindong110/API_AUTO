@@ -54,11 +54,15 @@ class H5Action(object):
         """
         open_url = landing_page_url + self.random_click_id()
         logger.info("使用adb命令打开的页面的地址{}".format(open_url))
+        # 先停止今日头条app的运行
+        stop_app("com.ss.android.article.news")
+
         # 使用adb命令打开落地页
         phone.shell(
             "am start -a android.intent.action.VIEW -d '{}'".format(open_url))
-        # 先停止今日头条app的运行
-        stop_app("com.ss.android.article.news")
+
+        # _adb = print("am start -a android.intent.action.VIEW -d '{}'".format(open_url))
+
         # 查看当前是不是在今日头条打开落地页
         now_activity = self.get_now_activity()
         if "com.ss.android.article.news" not in now_activity:

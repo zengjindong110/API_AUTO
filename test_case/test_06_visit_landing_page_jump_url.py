@@ -16,8 +16,6 @@ class VisitLandingPageJumpUrl(unittest.TestCase, RequestApi,AddFriend):
 
     def test_applets_add_friend(self):
         land_page_url = "http://bbb.dbq.yiye.ai/dbq/slLPIPXr?_cl=ffcf"
-        self.open_land_page(land_page_url)
-        self.add_friend()
-
+        self.h5_applet_add(land_page_url)
 if __name__ == '__main__':
     unittest.main()
