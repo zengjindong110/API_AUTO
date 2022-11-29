@@ -1,12 +1,15 @@
 import random
 
 from ui import *
+from common.log import Log
+
+from ui.api import CommonApi
 
 logger = Log(__file__)
 
 
 
-class H5Action(object):
+class H5Action(CommonApi):
     @staticmethod
     def _wait(v, timeout, intervalfunc=None):
         try:
@@ -17,8 +20,7 @@ class H5Action(object):
             address = ()
         return address
 
-    def get_now_activity(self):
-        return phone.shell("dumpsys window | grep mCurrentFocus")
+
 
     @staticmethod
     def image_name(image_name):
