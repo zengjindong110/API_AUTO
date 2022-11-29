@@ -1,5 +1,7 @@
 import random
 
+
+
 from ui import *
 from common.log import Log
 
@@ -54,13 +56,16 @@ class H5Action(CommonApi):
         如果手机上有默认浏览器，会以浏览器打开h5页面
 
         """
+
+
         open_url = landing_page_url + self.random_click_id()
         logger.info("使用adb命令打开的页面的地址{}".format(open_url))
         # 先停止今日头条app的运行
         stop_app("com.ss.android.article.news")
 
         # 使用adb命令打开落地页
-        phone.shell(
+
+        self.adb_shell(
             "am start -a android.intent.action.VIEW -d '{}'".format(open_url))
 
         # _adb = print("am start -a android.intent.action.VIEW -d '{}'".format(open_url))

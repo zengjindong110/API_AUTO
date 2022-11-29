@@ -21,7 +21,7 @@ class AppletAction(CommonApi):
 
     def check_page(self):
         # 获取当前页面的activition
-        now_dev = phone.shell("dumpsys window | grep mCurrentFocus")
+        now_dev = self.phone.shell("dumpsys window | grep mCurrentFocus")
         # com.tencent.mm.plugin.appbrand.ui.AppBrandUI 为添加好友的二维码页面
         if "com.tencent.mm.plugin.appbrand.ui.AppBrandUI" in now_dev or "com.tencent.mm.plugin.profile.ui.ContactInfoUI" in now_dev:
             logger.info("当前在小程序环境，为小程序的二维码展示页面!!!!!")
@@ -142,7 +142,7 @@ class AppletAction(CommonApi):
                  Template(r"./image/confirm_delete1.png", record_pos=(0.197, 0.219), resolution=(1440, 3200))
                  ])
         sleep(3)
-        now_dev = phone.shell("dumpsys window | grep mCurrentFocus")
+        now_dev = self.phone.shell("dumpsys window | grep mCurrentFocus")
         if "com.tencent.mm.plugin.appbrand.ui.AppBrandUI" in now_dev:
             assert_true(True, "好友删除成功")
 

@@ -2,7 +2,6 @@
 import json
 
 from test_case import *
-from ui import *
 
 class VisitLandingPageJumpUrl(unittest.TestCase, RequestApi,AddFriend):
 

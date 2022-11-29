@@ -1,5 +1,5 @@
-from ui.applets_action import *
-from ui.h5_action import *
+from ui.applets_action import AppletAction
+from ui.h5_action import H5Action
 
 
 class AddFriend(AppletAction, H5Action):
