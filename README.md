@@ -1,4 +1,4 @@
-MYSQL
+创建mysql的sql
 
 CREATE TABLE `api_auto_test` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -12,6 +12,7 @@ CREATE TABLE `api_auto_test` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+下面的是创建pg的表的sql
 创建pg表
 设置id自增长
 CREATE SEQUENCE id_seq START 1;
@@ -53,3 +54,6 @@ $$
 language plpgsql;
 
 create trigger update_time before update on api_auto_test for each row execute procedure up_timestamp();
+
+
+
