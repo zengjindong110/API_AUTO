@@ -2,8 +2,8 @@ from poco.drivers.android.uiautomation import AndroidUiautomationPoco
 from poco.exceptions import PocoTargetTimeout
 
 from common.log import Log
-from ui.api import CommonApi
 from ui import *
+from ui.api import CommonApi
 
 poco = AndroidUiautomationPoco(use_airtest_input=True, screenshot_each_action=False)
 
@@ -20,8 +20,11 @@ logger = Log(__file__)
 class AppletAction(CommonApi):
 
     def check_page(self):
+        """
+        获取当前页面的active
+        """
         # 获取当前页面的activition
-        now_dev = self.phone.shell("dumpsys window | grep mCurrentFocus")
+        now_dev = self.get_now_activity()
         # com.tencent.mm.plugin.appbrand.ui.AppBrandUI 为添加好友的二维码页面
         if "com.tencent.mm.plugin.appbrand.ui.AppBrandUI" in now_dev or "com.tencent.mm.plugin.profile.ui.ContactInfoUI" in now_dev:
             logger.info("当前在小程序环境，为小程序的二维码展示页面!!!!!")
@@ -30,26 +33,28 @@ class AppletAction(CommonApi):
             raise Exception("当前不是小程序环境，检查脚本为什么没有跳转到小程序")
 
     def long_touch_qr_code(self):
-        sleep(10)
+        """
+        长按二维码
+        """
         # 打印当前页面记得要补充
         qr_code = "./image/QR_code.png"
         try:
             logger.info("开始在小程序长按二维码，进行添加好友")
-            # qr_code_address = wait(
-            #     Template(r"{}".format(qr_code), record_pos=(-0.006, -0.507), resolution=(1080, 2400)), timeout=30)
             self.touch_image(
                 [(Template(r"{}".format(qr_code), record_pos=(-0.006, -0.507), resolution=(1080, 2400)), 3)])
         except PocoTargetTimeout as e:
             logger.error(f"小程序里面的二维码没有识别到，检查二维码{e}")
 
     def click_friends(self):
-        sleep(3)
+        """
+        点击打开对方企业微信名片
+        """
         logger.info("已经长按小程序，点击打开对方企业名片")
         try:
             poco("com.tencent.mm:id/ky_").wait_for_appearance(10)
         except PocoTargetTimeout:
             logger.error("使用poco没有识别出来com.tencent.mm:id/ky_控件，采用图片识别的方式")
-            # touch(Template(r"image/dakaiqiyemingpian1.png", record_pos=(0.006, 0.767), resolution=(1440, 3200)))
+
             self.touch_image(
                 [Template(r"image/dakaiqiyemingpian1.png", record_pos=(0.006, 0.767), resolution=(1440, 3200)),
                  Template(r"image/dakaiqiyemingpian.png", record_pos=(0.006, 0.767), resolution=(1440, 3200))])
@@ -57,6 +62,9 @@ class AppletAction(CommonApi):
             poco("com.tencent.mm:id/ky_").click()
 
     def go_friends(self):
+        """
+        点击添加到通讯录
+        """
         logger.info("跳转到添加到通讯录页面")
         # if "com.tencent.mm.plugin.profile.ui.ContactInfoUI" in now_dev:
         try:
@@ -64,7 +72,6 @@ class AppletAction(CommonApi):
         except PocoTargetTimeout:
             try:
                 logger.error("使用poco没有识别出来'text=添加到通讯录'控件，采用图片识别的方式")
-                # touch(Template(r"./image/add_to_address_book.png", record_pos=(0.006, 0.767), resolution=(1440, 3200)))
                 self.touch_image(
                     [Template(r"./image/add_to_address_book.png", record_pos=(0.006, 0.767), resolution=(1440, 3200)),
                      Template(r"./image/add_to_address_book1.png", record_pos=(0.006, 0.767), resolution=(1440, 3200))])
@@ -86,6 +93,9 @@ class AppletAction(CommonApi):
                                   "添加好友成功")
 
     def delete_friend(self):
+        """
+        添加好友成功后，删除好友
+        """
         # poco(desc).wait_for_appearance(10)
         """
         com.tencent.mm:id/eo   为页面上的三个点 ...
@@ -94,55 +104,33 @@ class AppletAction(CommonApi):
 
         """
         # 删除微信点击点击三个点
-        sleep(3)
+        logger.info("开始删除微信好友")
         try:
             poco("com.tencent.mm:id/eo").wait_for_appearance(10)
             poco("com.tencent.mm:id/eo").click()
         except PocoTargetTimeout:
-            # try:
-            #     too_more = wait(Template(r"./image/too_more.png", record_pos=(0.428, -0.983), resolution=(1440, 3200)))
-            # except TargetNotFoundError:
-            #     logger.error("没有识别到...的图片")
-            # else:
-            #     touch(too_more)
             self.touch_image([Template(r"./image/too_more.png", record_pos=(0.428, -0.983), resolution=(1440, 3200)),
-                         Template(r"./image/too_more1.png", record_pos=(0.428, -0.983), resolution=(1440, 3200))])
+                              Template(r"./image/too_more1.png", record_pos=(0.428, -0.983), resolution=(1440, 3200))])
 
         # 点击删除按钮
         try:
             poco("com.tencent.mm:id/khj").wait_for_appearance(10)
-
             poco("com.tencent.mm:id/khj").click()
         except PocoTargetTimeout:
-            # try:
-            #     delete_button = wait(
-            #         Template(r"./image/delete_button.png", record_pos=(-0.001, 0.216), resolution=(1440, 3200)))
-            # except TargetNotFoundError:
-            #     logger.error("通过图片识别没有识别到delete_button的图片")
-            # else:
-            #     touch(delete_button)
             self.touch_image(
                 [Template(r"./image/delete_button.png", record_pos=(-0.001, 0.216), resolution=(1440, 3200)),
                  Template(r"./image/delete_button1.png", record_pos=(-0.001, 0.216), resolution=(1440, 3200))])
         # 点击确认删除
-        sleep(3)
+
         try:
             poco("com.tencent.mm:id/guw").wait_for_appearance(10)
             poco("com.tencent.mm:id/guw").click()
         except PocoTargetTimeout:
-            # try:
-            #     confirm_delete = wait(
-            #         Template(r"./image/confirm_delete.png", record_pos=(0.197, 0.219), resolution=(1440, 3200)))
-            # except TargetNotFoundError:
-            #     logger.error("通过图片识别没有识别到confirm_delete的图片")
-            # else:
-            #     touch(confirm_delete)
             self.touch_image(
                 [Template(r"./image/confirm_delete.png", record_pos=(0.197, 0.219), resolution=(1440, 3200)),
                  Template(r"./image/confirm_delete1.png", record_pos=(0.197, 0.219), resolution=(1440, 3200))
                  ])
-        sleep(3)
-        now_dev = self.phone.shell("dumpsys window | grep mCurrentFocus")
+        now_dev = self.get_now_activity()
         if "com.tencent.mm.plugin.appbrand.ui.AppBrandUI" in now_dev:
             assert_true(True, "好友删除成功")
 

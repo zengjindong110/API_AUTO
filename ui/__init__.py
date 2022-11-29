@@ -1,16 +1,10 @@
-import logging
 
 from airtest.core.api import *
 
-# 调整airtet的日志等级
-loggers = logging.getLogger("airtest")
-loggers.setLevel(logging.ERROR)
 
 # 初始化airtet
 auto_setup(__file__)
 
-
-phone = connect_device("Android:///")
 
 # try:
 #     phone = connect_device("Android:///")

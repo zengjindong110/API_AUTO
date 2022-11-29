@@ -1,32 +1,13 @@
 import random
 
-
-
-from ui import *
 from common.log import Log
-
+from ui import *
 from ui.api import CommonApi
 
 logger = Log(__file__)
 
 
-
 class H5Action(CommonApi):
-    @staticmethod
-    def _wait(v, timeout, intervalfunc=None):
-        try:
-            logger.info(f"开始图片识别{v}")
-            address = wait(v, timeout, intervalfunc)
-        except:
-            logger.error(f"等待{timeout}秒后没有找到图片{v}")
-            address = ()
-        return address
-
-
-
-    @staticmethod
-    def image_name(image_name):
-        return "./image/{}.png".format(image_name)
 
     @staticmethod
     def get_click_id():
@@ -57,48 +38,29 @@ class H5Action(CommonApi):
 
         """
 
-
         open_url = landing_page_url + self.random_click_id()
         logger.info("使用adb命令打开的页面的地址{}".format(open_url))
         # 先停止今日头条app的运行
         stop_app("com.ss.android.article.news")
 
         # 使用adb命令打开落地页
-
         self.adb_shell(
             "am start -a android.intent.action.VIEW -d '{}'".format(open_url))
-
-        # _adb = print("am start -a android.intent.action.VIEW -d '{}'".format(open_url))
 
         # 查看当前是不是在今日头条打开落地页
         now_activity = self.get_now_activity()
         if "com.ss.android.article.news" not in now_activity:
             today_news_image = self.image_name("today_news")
-            # 查看页面是否出现今日头条的图片
-            coordinate = self._wait(
-                Template(today_news_image, record_pos=(-0.34, 0.423), resolution=(1440, 3200), threshold=0.4),
-                timeout=10)
-            # 判断页面是否出现使用今日头条打开落地页
-            if coordinate:
-                loggers.info("选择今日头条打开落地页")
-                touch(coordinate)
-            else:
-                loggers.error("没有找到今日头条，无法从今日头条打开落地页")
+            logger.info("当前页面不在今日头条，选择今日头条进入落地页")
+            self.touch_image(
+                [Template(today_news_image, record_pos=(-0.34, 0.423), resolution=(1440, 3200), threshold=0.4)])
         else:
-            loggers.info("已经在今日头条打开落地页")
+            logger.info("已经在今日头条打开落地页")
         sleep(3)
-        address = self._wait(
-            Template(r"{}".format(self.image_name("to_applets")), record_pos=(0.0, -0.704), resolution=(1080, 2400),
-                     threshold=0.6),
-            timeout=10)
-        logger.info(f"返回图片to_applets坐标{address}")
-        # 如果返回图片地址和当前页面是在今日头条中打开就点击图片
-        if address and "com.ss.android.article.news" in self.get_now_activity():
-            if address:
-                logger.info("点击图片to_applets")
-                touch(address)
-            else:
-                loggers.error("检查落地页打开的环境，或者没有识别到数据")
+        logger.info("开始点击图片跳转到小程序")
+        self.touch_image(
+            [Template(r"{}".format(self.image_name("to_applets")), record_pos=(0.0, -0.704), resolution=(1080, 2400),
+                      threshold=0.6)])
 
     def mian(self):
         self.open_land_page("http://bbb.dbq.yiye.ai/dbq/slLPIPXr?_cl=ffcf")
