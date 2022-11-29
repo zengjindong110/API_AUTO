@@ -66,3 +66,10 @@ create trigger update_time before update on api_auto_test for each row execute p
 1.手机要开启开发者模式 开启usb调试 允许模拟点击
 2.本项目的ui自动化是用airtest写的，需要手机连接电脑
 
+
+
+笔记
+
+导出当前项目的所有包  pipreqs . --encoding=utf8 --force
+
+

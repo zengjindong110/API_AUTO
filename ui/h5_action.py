@@ -42,7 +42,7 @@ class H5Action(CommonApi):
         self.touch_image(
             [Template(r"{}".format(self.image_name("to_applets")), record_pos=(0.0, -0.704), resolution=(1080, 2400),
                       threshold=0.6)])
-        sleep(5)
+        sleep(10)
 
     def mian(self):
         self.open_land_page("http://bbb.dbq.yiye.ai/dbq/slLPIPXr?_cl=ffcf")

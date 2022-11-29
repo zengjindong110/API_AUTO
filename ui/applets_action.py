@@ -33,6 +33,20 @@ class AppletAction(CommonApi):
         else:
             logger.error("当前不在小程序环境!!!!!")
             raise Exception("当前不是小程序环境，检查脚本为什么没有跳转到小程序")
+    def wait_QR_code(self):
+
+        times = 1
+        while times < 5 :
+            now_active = self.get_now_activity()
+            print(now_active)
+            # if "com.tencent.mm.plugin.appbrand.ui.AppBrandUI" in now_active:
+
+            d = wait(Template(f"{self.image_name('QR_code')}", record_pos=(-0.006, -0.507), resolution=(1080, 2400)), timeout=30)
+
+            logger.info(f"已经等待了{times}")
+            times += 1
+
+
 
     def long_touch_qr_code(self):
         """
@@ -147,4 +161,4 @@ class AppletAction(CommonApi):
 
 if __name__ == '__main__':
     a = AppletAction()
-    a.add_friend()
+    a.wait_QR_code()
