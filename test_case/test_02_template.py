@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from test_case import *
 
 order_template_id = None

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from ui.applets_action import AppletAction
 from ui.h5_action import H5Action
 

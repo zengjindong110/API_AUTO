@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
+
 import json
-# import pymysql
 import threading
 
 import psycopg2

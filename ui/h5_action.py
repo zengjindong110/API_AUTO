@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from common.get_config_data import GetConfig
 from common.log import Log
 from ui import *

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from poco.drivers.android.uiautomation import AndroidUiautomationPoco
 from poco.exceptions import PocoTargetTimeout
 
