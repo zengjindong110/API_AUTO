@@ -4,7 +4,7 @@ import threading
 
 import psycopg2
 
-from config.get_config_data import GetConfig
+from common.get_config_data import GetConfig
 
 
 class ConnectDb(object):
@@ -55,7 +55,7 @@ class ConnectDb(object):
             return result
         # 错误回滚
         except Exception as E:
-            print('\033[1;31;31m err-sql  "{}" {} \033[0m!'.format(sql, E))
+            print(f'\033[1;31;31m err-sql  "{sql}" {E} \033[0m!')
             self.connect.rollback()
 
     def select_data(self, sql):
@@ -71,7 +71,7 @@ class ConnectDb(object):
 
             return all_data
         except Exception as E:
-            print('\033[1;31;31m err-sql  "{}" {} \033[0m!'.format(sql, E))
+            print(f'\033[1;31;31m err-sql  "{sql}" {E} \033[0m!')
             self.connect.rollback()
 
     def update_data(self, sql):
@@ -81,20 +81,13 @@ class ConnectDb(object):
             return result
         # 错误回滚
         except Exception as E:
-            print('\033[1;31;31m err-sql  "{}" {} \033[0m!'.format(sql, E))
+            print(f'\033[1;31;31m err-sql  "{sql}" {E} \033[0m!')
             self.connect.rollback()
 
     def get_pmp_id(self):
         pmp_id = json.loads(self.select_data(
-            """SELECT respond FROM api_auto_test WHERE uri = '/api/v1/marketing/advertiser-account-groups/collect/list' """)[
+            """SELECT respond FROM api_auto_test WHERE uri = '/api/v1/marketing/advertiser-account-groups/collect/list'""")[
                                 0][0])["records"][0]["id"]
-
         return pmp_id
 
 
-if __name__ == '__main__':
-    c = ConnectDb()
-    x = c.select_data(
-        """SELECT respond FROM api_auto_test WHERE uri = '/api/v1/marketing/advertiser-account-groups/collect/list' """)
-    print(x)
-    print(c.get_pmp_id())

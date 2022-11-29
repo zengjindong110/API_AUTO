@@ -1,9 +1,9 @@
 # coding=utf8
-import json
 
 from test_case import *
 
-class VisitLandingPageJumpUrl(unittest.TestCase, RequestApi,AddFriend):
+
+class VisitLandingPageJumpUrl(unittest.TestCase, RequestApi, AddFriend):
 
     def tearDown(self):  # 每个用例运行之后运行的
         pass
@@ -14,7 +14,12 @@ class VisitLandingPageJumpUrl(unittest.TestCase, RequestApi,AddFriend):
         pass
 
     def test_applets_add_friend(self):
+        """
+        H5跳转到企业小程序添加好友
+        """
         land_page_url = "http://bbb.dbq.yiye.ai/dbq/slLPIPXr?_cl=ffcf"
         self.h5_applet_add(land_page_url)
+
+
 if __name__ == '__main__':
     unittest.main()

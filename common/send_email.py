@@ -3,16 +3,16 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from config.get_config_data import GetConfig
-
+from common.get_config_data import GetConfig
+from common.log import Log
 con = GetConfig()
 get_config = con.get_config_data("EMAIL")
 
+logger = Log(__file__)
 
 def send_email():
     s = smtplib.SMTP_SSL(get_config["MAIL_HOST"], 465, timeout=5)
     s.login(get_config["MAIL_USER"], get_config["MAIL_PWD"])
-
     mail = get_config["CONTENT"]
     msg = MIMEMultipart()
     msgtext = MIMEText(mail.encode('utf8'), _subtype='html', _charset='utf8')
@@ -33,11 +33,11 @@ def send_email():
     msg.attach(msgtext)
     try:
         s.sendmail(get_config["MAIL_USER"], to_mail, msg.as_string())
-        print('\033[1;31;31m {}  \033[0m!'.format("邮件发送成功"))
+        logger.info(f"邮件以发送到{get_config['MAIL_USER']}")
         s.close()
 
     except Exception as e:
-        print(e)
+        logger.error(f"发送失败，查看报错{e}")
 
 
 if __name__ == '__main__':

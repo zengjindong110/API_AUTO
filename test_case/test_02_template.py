@@ -1,11 +1,5 @@
 from test_case import *
 
-# import unittest
-# from common.request_api import RequestApi
-# from common.get_request_data import get_request_data
-
-request = RequestApi()
-
 order_template_id = None
 form_template_id = None
 
@@ -19,7 +13,6 @@ class Template(unittest.TestCase, RequestApi):
         order_tem_name = now_date()
         replace_data(create_order_data, {'name': order_tem_name})
         create_order_name_respond = self.request(create_order_data[0])
-        print(create_order_name_respond)
         # 设置断言如果返回的字段name里面有订单模板名称表示通过
         self.assertEqual(create_order_name_respond["name"], order_tem_name, msg="通过返回值里面的name字段进行断言")
         global order_template_id
@@ -55,3 +48,5 @@ class Template(unittest.TestCase, RequestApi):
         create_form_respond = self.request(create_form_data[0])
         self.assertTrue(create_form_respond['name'],msg="通过返回的name断言")
 
+if __name__ == '__main__':
+    unittest.main()

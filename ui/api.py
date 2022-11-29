@@ -107,7 +107,7 @@ class CommonApi(object):
                     break
             except TargetNotFoundError:
                 logger.error(f"没有识别出来{i}")
-        logger.info(f"点击图片{i}，位置为{address},点击图片的时间为{duration}")
+        logger.info(f"点击图片{i}，位置为{address},点击图片的时间为{duration}秒")
         touch(address, duration=duration)
 
     @staticmethod
@@ -128,7 +128,7 @@ class CommonApi(object):
     @staticmethod
     def image_name(image_name):
         """封装的图片地址，直接传入图片名称就可以"""
-        return "./image/{}.png".format(image_name)
+        return f"./image/{image_name}.png"
 
 
 if __name__ == '__main__':

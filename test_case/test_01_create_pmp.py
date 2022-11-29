@@ -14,7 +14,7 @@ class TestCreatePmp(unittest.TestCase, RequestApi):
         # warnings.simplefilter('ignore', ResourceWarning)
         pass
 
-    def check_user(self):  # 函数名要以test开头，否则不会被执行
+    def check_user(self):
 
         data = get_request_data("/api/v1/marketing/advertiser-account-groups/collect/list")
 
@@ -22,7 +22,7 @@ class TestCreatePmp(unittest.TestCase, RequestApi):
         # 判断搜索pmp账号接口有没有“api_test”的账号，没有的返回false，有就返回true
         # pass
         respond = self.request(data[0])
-        print(respond)
+
         if respond["records"]:
             repose = respond["records"][0]
 

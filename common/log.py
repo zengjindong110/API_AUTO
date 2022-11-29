@@ -7,8 +7,6 @@ import colorlog
 
 cur_path = os.path.dirname(os.path.realpath(__file__))  # 当前项目路径
 log_path = os.path.join(os.path.dirname(cur_path), 'LOG')  # log_path为存放日志的路径
-
-
 if not os.path.exists(log_path): os.mkdir(log_path)  # 若不存在logs文件夹，则自动创建
 
 log_colors_config = {
@@ -35,7 +33,7 @@ class Log(object):
     最后再将日志处理程序记录到记录器（addHandler）
     """
 
-    def __init__(self,name):
+    def __init__(self, name):
         name = name.split("/")[-1]
         self.__now_time = datetime.now().strftime('%Y-%m-%d')  # 当前日期格式化
         self.__all_log_path = os.path.join(log_path, self.__now_time + "-all" + ".log")  # 收集所有日志信息文件
@@ -44,14 +42,14 @@ class Log(object):
         self.__logger.setLevel(logging.DEBUG)  # 设置默认日志记录器记录级别
 
     @staticmethod
-    def __init_logger_handler(log_path):
+    def __init_logger_handler(path):
         """
         创建日志记录器handler，用于收集日志
-        :param log_path: 日志文件路径
+        :param path: 日志文件路径
         :return: 日志记录器
         """
         # 写入文件，如果文件超过1M大小时，切割日志文件，仅保留3个文件
-        logger_handler = RotatingFileHandler(filename=log_path, maxBytes=1 * 1024 * 1024, backupCount=3,
+        logger_handler = RotatingFileHandler(filename=path, maxBytes=1 * 1024 * 1024, backupCount=3,
                                              encoding='utf-8')
         return logger_handler
 
@@ -69,7 +67,6 @@ class Log(object):
         """
         logger_handler.setLevel(level=level)
         self.__logger.addHandler(logger_handler)
-
 
     def __set_color_handle(self, console_handle):
         """
@@ -100,7 +97,6 @@ class Log(object):
         """
         formatter = logging.Formatter(default_formats["log_format"], datefmt='%a, %d %b %Y %H:%M:%S')
         file_handler.setFormatter(formatter)
-
 
     @staticmethod
     def __close_handler(file_handler):

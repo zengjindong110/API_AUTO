@@ -1,34 +1,13 @@
-import random
-
+from common.get_config_data import GetConfig
 from common.log import Log
 from ui import *
 from ui.api import CommonApi
 
 logger = Log(__file__)
+GC = GetConfig()
 
 
 class H5Action(CommonApi):
-
-    @staticmethod
-    def get_click_id():
-        """
-        # 在配置文件中保存了1000多条有用的click_id,这个方法是读取配置文件中的click里面的click_id
-        """
-        with open("../config/click_id", "r") as f:
-            click_id = random.choice(f.readlines())
-        return click_id
-
-    def random_click_id(self):
-        """ 对拿到的配置文件里面的click_id随机生成一个可以正常上报的click_id用来上报"""
-        st = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
-        s = random.choice(st)
-        click_id = self.get_click_id().replace("\n", "")
-        _click_id = list(click_id)
-        # 修改巨量平台上的可用的click_id末尾的三个字符都可以正常使用的click_id,已验证
-        _click_id.pop(random.randint(len(click_id) - 4, len(click_id) - 1))
-        _click_id.append(s)
-        return "&clickid=" + "".join(
-            _click_id) + "&test=api_test&adid=1750461105858564&creativeid=1750461105859595&creativetype=5"
 
     def open_land_page(self, landing_page_url):
         """
@@ -38,7 +17,7 @@ class H5Action(CommonApi):
 
         """
 
-        open_url = landing_page_url + self.random_click_id()
+        open_url = landing_page_url + GC.random_click_id()
         logger.info("使用adb命令打开的页面的地址{}".format(open_url))
         # 先停止今日头条app的运行
         stop_app("com.ss.android.article.news")

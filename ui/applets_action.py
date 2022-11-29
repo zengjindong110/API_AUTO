@@ -41,7 +41,7 @@ class AppletAction(CommonApi):
         try:
             logger.info("开始在小程序长按二维码，进行添加好友")
             self.touch_image(
-                [(Template(r"{}".format(qr_code), record_pos=(-0.006, -0.507), resolution=(1080, 2400)), 3)])
+                [(Template(f"{qr_code}", record_pos=(-0.006, -0.507), resolution=(1080, 2400)), 2)])
         except PocoTargetTimeout as e:
             logger.error(f"小程序里面的二维码没有识别到，检查二维码{e}")
 
@@ -54,7 +54,6 @@ class AppletAction(CommonApi):
             poco("com.tencent.mm:id/ky_").wait_for_appearance(10)
         except PocoTargetTimeout:
             logger.error("使用poco没有识别出来com.tencent.mm:id/ky_控件，采用图片识别的方式")
-
             self.touch_image(
                 [Template(r"image/dakaiqiyemingpian1.png", record_pos=(0.006, 0.767), resolution=(1440, 3200)),
                  Template(r"image/dakaiqiyemingpian.png", record_pos=(0.006, 0.767), resolution=(1440, 3200))])
