@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
 
 import smtplib
-from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 from common.get_config_data import GetConfig
 from common.log import Log
+
 con = GetConfig()
 get_config = con.get_config_data("EMAIL")
 
 logger = Log(__file__)
+
 
 def send_email():
     s = smtplib.SMTP_SSL(get_config["MAIL_HOST"], 465, timeout=5)
