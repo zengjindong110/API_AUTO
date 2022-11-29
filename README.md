@@ -56,4 +56,13 @@ language plpgsql;
 create trigger update_time before update on api_auto_test for each row execute procedure up_timestamp();
 
 
+运行项目
+1. 导出安装的包 pip install -r requirements.txt
+2. 数据线连接手机
+3. 直接运行run.py
+
+
+注意：
+1.手机要开启开发者模式 开启usb调试 允许模拟点击
+2.本项目的ui自动化是用airtest写的，需要手机连接电脑
 
