@@ -34,17 +34,21 @@ class AppletAction(CommonApi):
             logger.error("当前不在小程序环境!!!!!")
             raise Exception("当前不是小程序环境，检查脚本为什么没有跳转到小程序")
     def wait_QR_code(self):
-
-        times = 1
-        while times < 5 :
+        """
+        默认等待50秒 等待二维码页面出来
+        """
+        times = 0
+        while times < 50 :
             now_active = self.get_now_activity()
-            print(now_active)
-            # if "com.tencent.mm.plugin.appbrand.ui.AppBrandUI" in now_active:
 
-            d = wait(Template(f"{self.image_name('QR_code')}", record_pos=(-0.006, -0.507), resolution=(1080, 2400)), timeout=30)
+            if "com.tencent.mm.plugin.appbrand.ui.AppBrandUI" in now_active:
+                logger.info(f"进入页面{now_active}")
+                break
+            else:
 
-            logger.info(f"已经等待了{times}")
-            times += 1
+                logger.info(f"已经等待了{times}")
+                sleep(1)
+                times += 1
 
 
 
@@ -52,12 +56,14 @@ class AppletAction(CommonApi):
         """
         长按二维码
         """
+        # 等待跳转到小程序页面
+        self.wait_QR_code()
+
         # 打印当前页面记得要补充
-        qr_code = "./image/QR_code.png"
         try:
             logger.info("开始在小程序长按二维码，进行添加好友")
             self.touch_image(
-                [(Template(f"{qr_code}", record_pos=(-0.006, -0.507), resolution=(1080, 2400)), 2)])
+                [(Template(f"{self.image_name('QR_code')}", record_pos=(-0.006, -0.507), resolution=(1080, 2400)), 2)])
         except PocoTargetTimeout as e:
             logger.error(f"小程序里面的二维码没有识别到，检查二维码{e}")
 

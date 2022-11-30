@@ -44,8 +44,8 @@ class GetConfig(object):
         s = random.choice(st)
         click_id = self.get_click_id().replace("\n", "")
         _click_id = list(click_id)
-        # 修改巨量平台上的可用的click_id末尾的三个字符都可以正常使用的click_id,已验证
-        _click_id.pop(random.randint(len(click_id) - 4, len(click_id) - 1))
+        # 修改巨量平台上的可用的click_id末尾的两个字符都可以正常使用的click_id,已验证
+        _click_id.pop(random.randint(len(click_id) - 3, len(click_id) - 1))
         _click_id.append(s)
         return "&clickid=" + "".join(
             _click_id) + "&test=api_test&adid=1750461105858564&creativeid=1750461105859595&creativetype=5"

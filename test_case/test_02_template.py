@@ -26,7 +26,6 @@ class Template(unittest.TestCase, RequestApi):
         create_order_url = "/api/v1/landing-page/widget-templates/pmp/FORM_TYPE/{}".format(str(order_template_id))
         create_order_data[0].update({"uri": create_order_url})
         create_order_respond = self.request(create_order_data[0])
-        print(create_order_respond)
         self.assertTrue(create_order_respond['name'],msg="通过返回的name断言")
 
     def test_03_create_form_template(self):

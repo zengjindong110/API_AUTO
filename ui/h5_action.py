@@ -27,7 +27,7 @@ class H5Action(CommonApi):
         # 使用adb命令打开落地页
         self.adb_shell(
             "am start -a android.intent.action.VIEW -d '{}'".format(open_url))
-
+        sleep(3)
         # 查看当前是不是在今日头条打开落地页
         now_activity = self.get_now_activity()
         if "com.ss.android.article.news" not in now_activity:
@@ -37,10 +37,9 @@ class H5Action(CommonApi):
                 [Template(today_news_image, record_pos=(-0.34, 0.423), resolution=(1440, 3200), threshold=0.4)])
         else:
             logger.info("已经在今日头条打开落地页")
-        sleep(3)
         logger.info("开始点击图片跳转到小程序")
         self.touch_image(
-            [Template(r"{}".format(self.image_name("to_applets")), record_pos=(0.0, -0.704), resolution=(1080, 2400),
+            [Template(fr"{self.image_name('to_applets')}", record_pos=(0.0, -0.704), resolution=(1080, 2400),
                       threshold=0.6)])
         sleep(10)
 
