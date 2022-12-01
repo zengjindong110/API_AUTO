@@ -19,7 +19,7 @@ class H5Action(CommonApi):
 
         """
 
-        open_url = landing_page_url + GC.random_click_id()
+        open_url = landing_page_url
         logger.info("使用adb命令打开的页面的地址{}".format(open_url))
         # 先停止今日头条app的运行
         stop_app("com.ss.android.article.news")

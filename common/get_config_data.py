@@ -38,8 +38,15 @@ class GetConfig(object):
             click_id = random.choice(f.readlines())
         return click_id
 
-    def random_click_id(self):
-        """ 对拿到的配置文件里面的click_id随机生成一个可以正常上报的click_id用来上报"""
+    def splicing_click_id(self):
+        """
+        拼接落地页地址后面的参数
+        return {
+        click_id:"", click_id
+        params:"" 已经拼接好的参数
+        }
+
+        """
         st = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
         s = random.choice(st)
         click_id = self.get_click_id().replace("\n", "")
@@ -47,8 +54,13 @@ class GetConfig(object):
         # 修改巨量平台上的可用的click_id末尾的两个字符都可以正常使用的click_id,已验证
         _click_id.pop(random.randint(len(click_id) - 3, len(click_id) - 1))
         _click_id.append(s)
-        return "&clickid=" + "".join(
-            _click_id) + "&test=api_test&adid=1750461105858564&creativeid=1750461105859595&creativetype=5"
+        clickid = "".join(
+            _click_id)
+        return {
+            "click_id":clickid,
+            "params":"&clickid=" + clickid + "&test=api_test&adid=1750461105858564&creativeid=1750461105859595&creativetype=5"
+        }
+
 
     # 获取ini的配置文件,返回一个字典
     def get_config_data(self, section):

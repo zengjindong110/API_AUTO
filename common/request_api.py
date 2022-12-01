@@ -80,7 +80,7 @@ class RequestApi(object):
 
     def request(self, request_data):
         """
-        data ={'id':1,'uri': '/api/v1/landing-page/landing-pages/pmp', 'method': 'post', 'data': {'aa': 'bb'}, 'assert': {'aa': 'bb'}, 'describe': '这是模板'}
+        data ={'id':1,'uri': '/api/v1/landing-page/landing-pages/pmp', 'method': 'post', 'data': {'aa': 'bb'}, 'Assert': {'aa': 'bb'}, 'describe': '这是模板'}
 
         respond = self.request(data)
         """
@@ -119,5 +119,5 @@ class RequestApi(object):
 
 if __name__ == '__main__':
     r = RequestApi()
-    a = {'id': 1, 'uri': '/api/v1/marketing/advertiser-account-groups/collect/list', 'method': 'get', 'data': {'page': 1, 'size': 20, 'sort': 'pv', 'order': 'desc', 'name': 'api_test', 'startTime': '2022-10-16', 'endTime': '2022-10-16'}, 'assert': {'name': 'test1111', 'advertiserAccountIndustryId': 2, 'managerList': [], 'leaderId': None, 'advertiserAccountIds': [], 'target': []}, 'describe': '搜索pmp账号接口有没有“api_test”的账号'}
+    a = {'id': 1, 'uri': '/api/v1/marketing/advertiser-account-groups/collect/list', 'method': 'get', 'data': {'page': 1, 'size': 20, 'sort': 'pv', 'order': 'desc', 'name': 'api_test', 'startTime': '2022-10-16', 'endTime': '2022-10-16'}, 'Assert': {'name': 'test1111', 'advertiserAccountIndustryId': 2, 'managerList': [], 'leaderId': None, 'advertiserAccountIds': [], 'target': []}, 'describe': '搜索pmp账号接口有没有“api_test”的账号'}
     r.request(a)

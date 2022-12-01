@@ -1,6 +1,7 @@
 import time
 import unittest
 
+from Assert.customer_assert import *
 from common.get_request_data import *
 from common.open_landing_page import *
 from common.request_api import RequestApi
@@ -8,7 +9,7 @@ from ui.applet_add_friends import *
 from ui.api import CommonApi
 
 __all__ = ['RequestApi', 'unittest', 'select_respond', 'get_request_data', "replace_data", "open_url", "now_date",
-           "start_time", "end_time", "order_submit", "table_submit","AddFriend","CommonApi"]
+           "start_time", "end_time", "order_submit", "table_submit","AddFriend","CommonApi","Customer"]
 
 
 # 更新整个data请求参数

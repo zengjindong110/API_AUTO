@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 import datetime
 
+from common.log import Log
 from common.get_config_data import GetConfig
 from common.request_api import RequestApi
 
 GC = GetConfig()
+
+log = Log(__file__)
 
 
 class Customer(RequestApi):
@@ -47,7 +50,7 @@ class Customer(RequestApi):
         result = d_start <= d_end
         return result
 
-    def assert_customer(self, start_time, click_id):
+    def assert_customer(self, start_time):
         """
         客资断言
         1.判断最新的一条客资有没有生成，以时间为条件，启动落地页的时候会生成一个开始时间
@@ -57,25 +60,22 @@ class Customer(RequestApi):
         create_customer_time = customer_li["createdAt"].replace("T", " ")[:-5]
         # 把strTime转化为时间格式,后面的秒位自动补位的
         startTime = datetime.datetime.strptime(create_customer_time, '%Y-%m-%d %H:%M:%S')
-
         # 将客资转化成+8的时间
         create_customer_time = (startTime + datetime.timedelta(hours=2)).strftime("%Y-%m-%d %H:%M:%S")
-
         # 是否生成客资
         is_customer = self.compare_time(start_time, str(create_customer_time))
+        log.info(f"断言判断客资是否生成{is_customer}")
         return is_customer
 
-    def assert_click_id(self,click_id):
+    def assert_click_id(self, click_id):
         """
         2.判断生成的click_id是不是在客资的的url上面
         click_id 在最新的客资上则这个客资为当前客资
         """
         # 访问URL(成功添加企业微信)
         wechatAppletLandingPageViewUrl = self.customer_li["wechatAppletLandingPageViewUrl"]
-        if click_id in wechatAppletLandingPageViewUrl:
-            return True
-        else:
-            return False
+        log.info(f"断言判断客资是否有clickid{wechatAppletLandingPageViewUrl}")
+        return True if click_id in wechatAppletLandingPageViewUrl else False
 
     def assert_customer_upload(self):
         """
@@ -85,16 +85,21 @@ class Customer(RequestApi):
         uploadRecordReturnMessageDtos = self.customer_li["uploadRecordReturnMessageDtos"]
         # 获取上报是否成功
         upload_status = [i["isSuccess"] for i in uploadRecordReturnMessageDtos]
-        if False in upload_status:
-            return False
-        else:
-            return False
+        log.info(f"断言判断客资是否上报成功{upload_status}")
+        return False if False in upload_status else True
+
+    def applet_add_friends_assert(self, start_time, click_id):
+        """
+        断言小程序添加好友链路合并起来的方法
+        """
+        return [self.assert_customer(start_time), self.assert_customer_upload(), self.assert_click_id(click_id)]
+
     def assert_customer_value(self):
         pass
-
 
 
 if __name__ == '__main__':
     aaa = Customer()
     clickid = "EIfQmZ-Dq4cDGKaZ3PXcAiDt77C3qvXHBzAMOMG4AkIiMjAyMjAxMDUxOTM5MDQwMTAxNTAxNjExNjIwMEM3NDQ2MkjBuAKQAAC"
-    aaa.assert_customer(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), clickid)
+    aaa.assert_customer(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    print(aaa.assert_customer_upload())
