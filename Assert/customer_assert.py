@@ -61,10 +61,11 @@ class Customer(RequestApi):
         # 把strTime转化为时间格式,后面的秒位自动补位的
         startTime = datetime.datetime.strptime(create_customer_time, '%Y-%m-%d %H:%M:%S')
         # 将客资转化成+8的时间
-        create_customer_time = (startTime + datetime.timedelta(hours=2)).strftime("%Y-%m-%d %H:%M:%S")
+        create_customer_time = (startTime + datetime.timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")
         # 是否生成客资
         is_customer = self.compare_time(start_time, str(create_customer_time))
-        log.info(f"断言判断客资是否生成{is_customer}")
+
+        log.info(f"断言判断客资是否生成{start_time}<{create_customer_time}")
         return is_customer
 
     def assert_click_id(self, click_id):

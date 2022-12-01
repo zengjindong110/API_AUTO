@@ -2,11 +2,11 @@
 from datetime import datetime
 from time import sleep
 
-from test_case import *
 from common.get_config_data import GetConfig
-from Assert.customer_assert import Customer
+from test_case import *
 
 GC = GetConfig()
+log = Log(__file__)
 
 
 class VisitLandingPageJumpUrl(unittest.TestCase, RequestApi, AddFriend):
@@ -28,9 +28,11 @@ class VisitLandingPageJumpUrl(unittest.TestCase, RequestApi, AddFriend):
         now_data = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         land_page_url = "http://bbb.dbq.yiye.ai/dbq/slLPIPXr?_cl=ffcf" + click_id["params"]
         self.h5_applet_add(land_page_url)
-        sleep(60)
+        sleep(80)
         customer = Customer()
-        customer.applet_add_friends_assert(now_data, click_id["click_id"])
+        assert_data = customer.applet_add_friends_assert(now_data, click_id["click_id"])
+
+        self.assertTrue(True if False not in assert_data else False, msg=f"H5跳转到小程序添加好友链路失败{assert_data}")
 
 
 if __name__ == '__main__':
