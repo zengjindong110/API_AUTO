@@ -18,8 +18,7 @@ class Customer(RequestApi):
     3，是否上报成功
     """
 
-    def __init__(self):
-        super().__init__()
+    def get_data(self):
         get_data_params = {
             "uri": "/api/v1/customer/customers/pmp",
             "method": "get",
@@ -36,7 +35,7 @@ class Customer(RequestApi):
             "id": 18
         }
         # 取客资最近的一条客资
-        self.customer_li = self.request(get_data_params)["records"][0]
+        return self.request(get_data_params)["records"][0]
 
     @staticmethod
     def compare_time(start_time, create_customer_time):
@@ -55,7 +54,7 @@ class Customer(RequestApi):
         客资断言
         1.判断最新的一条客资有没有生成，以时间为条件，启动落地页的时候会生成一个开始时间
         """
-        customer_li = self.customer_li
+        customer_li = self.get_data()
         # 查到客资生成的时间
         create_customer_time = customer_li["createdAt"].replace("T", " ")[:-5]
         # 把strTime转化为时间格式,后面的秒位自动补位的

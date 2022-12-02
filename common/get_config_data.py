@@ -4,9 +4,12 @@ import configparser
 import inspect
 import os
 import random
-
+import time
 
 # 重写获取配置文件的方法,让读取出来的内容变为大写的
+
+
+
 class MyConf(configparser.ConfigParser):
     def __init__(self, defaults=None):
         configparser.ConfigParser.__init__(self, defaults=None)
@@ -90,6 +93,23 @@ class GetConfig(object):
 
     def get_pmp_id(self):
         return self.get_config_data("PMP")["PMP_ID"]
+
+    def start_time(self):
+        """2022-07-09T16:00:00.000Z"""
+        now_data = time.strftime("%Y-%m-%dT16:00:00.000Z", time.localtime())
+        a = int(now_data[8:10]) - 1
+        if a < 10:
+            a = "0" + str(a)
+        else:
+            a = str(a)
+
+        yesterday = now_data[:8] + a + now_data[10:]
+
+        return yesterday
+
+    def end_time(self):
+        """2022-07-09T16:00:00.000Z"""
+        return time.strftime("%Y-%m-%dT15:59:59.000Z", time.localtime())
 
 
 if __name__ == '__main__':

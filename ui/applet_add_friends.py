@@ -11,7 +11,6 @@ class AddFriend(AppletAction, H5Action):
         一跳落地页为H5落地页跳转到自己的小程序后添加好友
         """
         self.open_land_page(once_jump_page_url)
-        print(1111111)
         self.add_friend()
 
 
