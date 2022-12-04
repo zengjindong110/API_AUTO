@@ -6,6 +6,9 @@ from poco.exceptions import PocoTargetTimeout
 from common.log import Log
 from ui import *
 from ui.api import CommonApi
+from common.get_config_data import GetConfig
+
+gc = GetConfig()
 
 poco = AndroidUiautomationPoco(use_airtest_input=True, screenshot_each_action=False)
 
@@ -38,7 +41,7 @@ class AppletAction(CommonApi):
         默认等待50秒 等待二维码页面出来
         """
         times = 0
-        while times < 50 :
+        while times < int(gc.get_config_data("WAIT")["JUMP_APPLET"]) :
             now_active = self.get_now_activity()
 
             if "com.tencent.mm.plugin.appbrand.ui.AppBrandUI" in now_active:

@@ -64,7 +64,7 @@ class CustomerService(RequestApi):
         # 落地页链路成功加企业微信数
         landAddWorkWechatNum = self.second_wechat_customer_service_data["landAddWorkWechatNum"] - \
                                self.once_wechat_customer_service_data["landAddWorkWechatNum"]
-        log.info(f'微信客服列表断言判断：二维码展示数{qrCodeShowNum} 二维码长按识别数{identifyQrCodeNum} 落地页链路成功加企业微信数{landAddWorkWechatNum}')
+        log.warning(f'微信客服列表断言判断：二维码展示数{qrCodeShowNum} 二维码长按识别数{identifyQrCodeNum} 落地页链路成功加企业微信数{landAddWorkWechatNum}')
         return True if qrCodeShowNum == 1 and identifyQrCodeNum == 1 and landAddWorkWechatNum == 1 else False
 
 

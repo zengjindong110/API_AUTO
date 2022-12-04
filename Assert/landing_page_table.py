@@ -71,7 +71,7 @@ class AssertLandingPageTable(RequestApi):
         # 浏览数(PV)
         pageViewNum = self.once_jump_page_data_second["pageViewNum"] - \
                       self.once_jump_page_data_one["pageViewNum"]
-        log.info(f'断言一跳页数据一跳页浏览数(PV) {pageViewNum} ')
+        log.warning(f'断言一跳页数据一跳页浏览数(PV) 增加的pv数{pageViewNum} ')
         return True if pageViewNum == 1 else False
 
     def assert_second_page_data(self):
@@ -99,7 +99,7 @@ class AssertLandingPageTable(RequestApi):
         # 平均停留时长(秒)
         averageLengthOfStay = self.second_jump_page_data_second["averageLengthOfStay"]
 
-        log.info(
+        log.warning(
             f"断言二跳页数据 加企业微信数+{addWorkWechatNum} 浏览数(PV)+{pageViewNum} 长按二维码识别数(微信 / 企业微信)+{identifyQrCodeNum} 平均停留时长(秒){averageLengthOfStay}")
         return True if addWorkWechatNum == 1 and pageViewNum == 1 and identifyQrCodeNum == 1 and \
                        float(averageLengthOfStay) > 0 else False
