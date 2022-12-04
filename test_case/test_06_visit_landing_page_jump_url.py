@@ -19,8 +19,8 @@ second_jump_landing_page_name = "二跳-H5-二维码"
 
 # click_id = GC.splicing_click_id()
 click_id = {}
+
 start_time = ""
-# 获取当前时间
 
 
 class VisitLandingPageJumpUrl(unittest.TestCase, RequestApi, AddFriend):
@@ -53,7 +53,7 @@ class VisitLandingPageJumpUrl(unittest.TestCase, RequestApi, AddFriend):
         """
         H5跳转到企业小程序添加好友
         """
-        # 获取一跳页二跳页访问前的数据，传入落地页名称
+        # 获取落地页列表一跳页二跳页访问前的数据，传入落地页名称
         landing_page_table.applet_add_friend_before(once_jump_landing_page_name, second_jump_landing_page_name)
         land_page_url = "http://bbb.dbq.yiye.ai/dbq/slLPIPXr?_cl=ffcf" + click_id["params"]
         global start_time
@@ -66,7 +66,7 @@ class VisitLandingPageJumpUrl(unittest.TestCase, RequestApi, AddFriend):
         """
         抖音原生页跳转到小程序添加好友
         """
-        # 获取一跳页二跳页访问前的数据，传入落地页名称
+        # 获取落地页列表一跳页二跳页访问前的数据，传入落地页名称
         landing_page_table.applet_add_friend_before(once_jump_landing_page_name, second_jump_landing_page_name)
         land_page_url = "https://dbq.asptest.yiye-a.com/site/dbq/slLPIPXr/97bc?lynx_enable=1&adid=__AID__&creativeid=__CID__&creativetype=__CTYPE__" + click_id["params"]
         global start_time
