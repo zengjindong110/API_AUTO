@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-import unittest
-from BeautifulReport import BeautifulReport
 import os
-from common.send_email import send_email
-import sys
+import unittest
+
+from BeautifulReport import BeautifulReport
 
 source_route = os.getcwd() + "/report"
 
@@ -16,8 +15,7 @@ prod 为线上环境
 """
 
 if __name__ == '__main__':
-
-    test_suite = unittest.defaultTestLoader.discover('test_case', pattern='test_06*.py')
+    test_suite = unittest.defaultTestLoader.discover('test_case', pattern='test_06_visit_landing_page_jump_url2.py')
 
     result = BeautifulReport(test_suite)
 

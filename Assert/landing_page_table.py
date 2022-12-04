@@ -20,6 +20,9 @@ class AssertLandingPageTable(RequestApi):
         self.second_jump_page_data_second = ""
 
     def get_data(self, landing_page_name):
+        """
+        查询落地页列表数据
+        """
         search_data = {
             "method": "get",
             "uri": "/api/v1/landing-page/landing-pages/pmp/collect/filtering/new",
@@ -29,23 +32,34 @@ class AssertLandingPageTable(RequestApi):
                 "order": "desc",
                 "sortField": "updatedAt",
                 "name": landing_page_name,
-                "startTime": gc.start_time(),
-                "endTime": gc.end_time(),
+                "startTime": gc.start_time()[0],
+                "endTime": gc.end_time()[0],
                 "deleteStatus": "NORMAL",
                 "landingPageGroupId": -1,
-                "advertiserAccountGroupId": 126,
+                "advertiserAccountGroupId": gc.get_pmp_id(),
                 "recoveryAt": 0
             },
             "id": 19,
         }
-
-        return self.request(search_data)["records"][0]
+        respond = self.request(search_data)
+        try:
+            respond = respond["records"][0]
+        except KeyError:
+            log.error(f"接口返回参数有问题{respond}")
+        else:
+            return respond
 
     def applet_add_friend_before(self, once_jump_page_name, second_jump_page_name):
+        """
+        获取一跳落地页和二跳落地页添加好友前的数据
+        """
         self.once_jump_page_data_one = self.get_data(once_jump_page_name)
         self.second_jump_page_data_one = self.get_data(second_jump_page_name)
 
     def applet_add_friend_after(self, once_jump_page_name, second_jump_page_name):
+        """
+        获取一跳落地页和二跳落地页添加好友后的数据
+        """
         self.once_jump_page_data_second = self.get_data(once_jump_page_name)
         self.second_jump_page_data_second = self.get_data(second_jump_page_name)
 
@@ -57,7 +71,7 @@ class AssertLandingPageTable(RequestApi):
         # 浏览数(PV)
         pageViewNum = self.once_jump_page_data_second["pageViewNum"] - \
                       self.once_jump_page_data_one["pageViewNum"]
-        log.info(f'一跳页浏览数(PV) {pageViewNum} ')
+        log.info(f'断言一跳页数据一跳页浏览数(PV) {pageViewNum} ')
         return True if pageViewNum == 1 else False
 
     def assert_second_page_data(self):
@@ -84,9 +98,9 @@ class AssertLandingPageTable(RequestApi):
 
         # 平均停留时长(秒)
         averageLengthOfStay = self.second_jump_page_data_second["averageLengthOfStay"]
-        print(self.second_jump_page_data_second)
+
         log.info(
-            f"加企业微信数+{addWorkWechatNum} 浏览数(PV)+{pageViewNum} 长按二维码识别数(微信 / 企业微信)+{identifyQrCodeNum} 平均停留时长(秒){averageLengthOfStay}")
+            f"断言二跳页数据 加企业微信数+{addWorkWechatNum} 浏览数(PV)+{pageViewNum} 长按二维码识别数(微信 / 企业微信)+{identifyQrCodeNum} 平均停留时长(秒){averageLengthOfStay}")
         return True if addWorkWechatNum == 1 and pageViewNum == 1 and identifyQrCodeNum == 1 and \
                        float(averageLengthOfStay) > 0 else False
 

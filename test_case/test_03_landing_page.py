@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from test_case import *
-
+from common.get_config_data import GetConfig
 landing_page_id = None
+
+gc = GetConfig()
 
 
 # 还有上传图片和获取表单订单没有做
@@ -13,7 +15,7 @@ class TestCreateLandingPages(unittest.TestCase, RequestApi):
         """创建落地页名称"""
         login_data = get_request_data("/api/v1/landing-page/landing-pages/pmp")
 
-        login_data[0]["data"]["name"] = now_date()
+        login_data[0]["data"]["name"] = gc.now_date()
 
         landing_page_name = self.request(login_data[0])
         self.assertTrue(landing_page_name["name"], msg="创建落地页名称成功")
@@ -35,7 +37,7 @@ class TestCreateLandingPages(unittest.TestCase, RequestApi):
         """访问落地页url"""
         landing_page_channel = get_request_data("/api/v1/landing-page/landing-channel/batch/collect/filter/new")
         replace_data(landing_page_channel,
-                     {'landingPageId': landing_page_id, 'startTime': start_time(), 'endTime': end_time()})
+                     {'landingPageId': landing_page_id, 'startTime': gc.start_time()[0], 'endTime': gc.end_time()[0]})
 
         # 查询落地页url，pv，uv
         after_landing_page_channel_data = self.request(landing_page_channel)

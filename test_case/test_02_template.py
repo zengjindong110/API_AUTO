@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from test_case import *
-
+from common.get_config_data import GetConfig
 order_template_id = None
 form_template_id = None
 
+gc = GetConfig()
 
 class Template(unittest.TestCase, RequestApi):
 
@@ -12,7 +13,7 @@ class Template(unittest.TestCase, RequestApi):
         """创建订单模板名称"""
         create_order_data = get_request_data("/api/v1/landing-page/widget-templates/PMP/ORDER_TYPE")
         # 订单模板名称更改，相同的订单模板名称不能创建成功
-        order_tem_name = now_date()
+        order_tem_name = gc.now_date()
         replace_data(create_order_data, {'name': order_tem_name})
         create_order_name_respond = self.request(create_order_data[0])
         # 设置断言如果返回的字段name里面有订单模板名称表示通过
@@ -32,7 +33,7 @@ class Template(unittest.TestCase, RequestApi):
         """创建表单模板名称"""
         create_form_data = get_request_data("/api/v1/landing-page/widget-templates/pmp/FORM_TYPE")
         # 订单模板名称更改，相同的订单模板名称不能创建成功
-        form_tem_name = now_date()
+        form_tem_name = gc.now_date()
         replace_data(create_form_data, {'name': form_tem_name})
         create_order_name_respond = self.request(create_form_data[0])
         # 设置断言如果返回的字段name里面有订单模板名称表示通过

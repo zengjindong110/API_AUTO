@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import datetime
 
-from common.log import Log
 from common.get_config_data import GetConfig
+from common.log import Log
 from common.request_api import RequestApi
 
 GC = GetConfig()
@@ -17,6 +17,11 @@ class Customer(RequestApi):
     2.判断生成的click_id是不是在客资的的url上面
     3，是否上报成功
     """
+
+    def __init__(self):
+        super().__init__()
+
+        self.customer_li = ""
 
     def get_data(self):
         get_data_params = {
@@ -35,7 +40,7 @@ class Customer(RequestApi):
             "id": 18
         }
         # 取客资最近的一条客资
-        return self.request(get_data_params)["records"][0]
+        self.customer_li = self.request(get_data_params)["records"][0]
 
     @staticmethod
     def compare_time(start_time, create_customer_time):
@@ -54,9 +59,9 @@ class Customer(RequestApi):
         客资断言
         1.判断最新的一条客资有没有生成，以时间为条件，启动落地页的时候会生成一个开始时间
         """
-        customer_li = self.get_data()
+        self.get_data()
         # 查到客资生成的时间
-        create_customer_time = customer_li["createdAt"].replace("T", " ")[:-5]
+        create_customer_time = self.customer_li["createdAt"].replace("T", " ")[:-5]
         # 把strTime转化为时间格式,后面的秒位自动补位的
         startTime = datetime.datetime.strptime(create_customer_time, '%Y-%m-%d %H:%M:%S')
         # 将客资转化成+8的时间
@@ -92,7 +97,9 @@ class Customer(RequestApi):
         """
         断言小程序添加好友链路合并起来的方法
         """
-        return [self.assert_customer(start_time), self.assert_customer_upload(), self.assert_click_id(click_id)]
+        assert_data = [self.assert_customer(start_time), self.assert_customer_upload(), self.assert_click_id(click_id)]
+
+        return True if False not in assert_data else False
 
     def assert_customer_value(self):
         pass

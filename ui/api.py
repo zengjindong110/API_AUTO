@@ -117,7 +117,7 @@ class CommonApi(object):
         """
         获取当前页面的activity
         """
-        new_activity = phone.shell("dumpsys window | grep mCurrentFocus")
+        new_activity = phone.shell("dumpsys window | grep mCurrentFocus").replace("\n","")
         logger.info(f"获取当前页面的activity为{new_activity}")
         return new_activity
 

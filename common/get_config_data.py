@@ -6,8 +6,8 @@ import os
 import random
 import time
 
-# 重写获取配置文件的方法,让读取出来的内容变为大写的
 
+# 重写获取配置文件的方法,让读取出来的内容变为大写的
 
 
 class MyConf(configparser.ConfigParser):
@@ -60,10 +60,9 @@ class GetConfig(object):
         clickid = "".join(
             _click_id)
         return {
-            "click_id":clickid,
-            "params":"&clickid=" + clickid + "&test=api_test&adid=1750461105858564&creativeid=1750461105859595&creativetype=5"
+            "click_id": clickid,
+            "params": "&clickid=" + clickid + "&test=api_test&adid=1750461105858564&creativeid=1750461105859595&creativetype=5"
         }
-
 
     # 获取ini的配置文件,返回一个字典
     def get_config_data(self, section):
@@ -95,8 +94,10 @@ class GetConfig(object):
         return self.get_config_data("PMP")["PMP_ID"]
 
     def start_time(self):
-        """2022-07-09T16:00:00.000Z"""
-        now_data = time.strftime("%Y-%m-%dT16:00:00.000Z", time.localtime())
+        """
+        2022-07-09T16:00:00.000Z
+        """
+        now_data = time.strftime("%Y-%m-%dT00:00:00.000Z", time.localtime())
         a = int(now_data[8:10]) - 1
         if a < 10:
             a = "0" + str(a)
@@ -105,15 +106,20 @@ class GetConfig(object):
 
         yesterday = now_data[:8] + a + now_data[10:]
 
-        return yesterday
+        return yesterday, yesterday.replace("T", " ")[:-5]
 
     def end_time(self):
         """2022-07-09T16:00:00.000Z"""
-        return time.strftime("%Y-%m-%dT15:59:59.000Z", time.localtime())
+        tz_time = time.strftime("%Y-%m-%dT23:59:59.000Z", time.localtime())
+        normal_time = time.strftime("%Y-%m-%d 23:59:59", time.localtime())
+        return tz_time, normal_time
 
+    # 当前时间 格式化成2016-03-20 11:45:39形式
+    def now_date(self):
+        return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
 if __name__ == '__main__':
     gc = GetConfig()
     # a = gc.get_config_data("EMAIL")
-    a = gc.get_config_data("EMAIL")
+    a = gc.start_time()
     print(a)

@@ -87,8 +87,8 @@ class RequestApi(object):
         if type(request_data) == list:
             request_data = request_data[0]
         _data = deal_with_data(request_data)
-        logger.info(
-            f'请求地址：{_data["uri"]} 请求方式：{_data["method"]} 请求参数：{_data["data"]}  请求头：{header}')
+        # logger.info(
+        #     f'请求地址：{_data["uri"]} 请求方式：{_data["method"]} 请求参数：{_data["data"]}  请求头：{header}')
         res = ""
         try:
             if _data["method"] in ["post", "put"]:
@@ -102,7 +102,7 @@ class RequestApi(object):
                 res = requests.request(method=_data["method"], url=_data["uri"],
                                        headers=header, params=_data["data"], timeout=30)
 
-                logger.info(f"响应结果:{res.text}")
+                # logger.info(f"响应结果:{res.text}")
 
         except Exception:
             logger.error(f"请求的时候出错了出错了:{_data}")
