@@ -66,7 +66,7 @@ class AppletAction(CommonApi):
         try:
             logger.info("开始在小程序长按二维码，进行添加好友")
             self.touch_image(
-                [(Template(f"{self.image_name('QR_code')}", record_pos=(-0.006, -0.507), resolution=(1080, 2400)), 2)])
+                [(Template(f"{self.image_name('QR_code')}", record_pos=(-0.006, -0.507), resolution=(1080, 2400)), 1.5)])
         except PocoTargetTimeout as e:
             logger.error(f"小程序里面的二维码没有识别到，检查二维码{e}")
 

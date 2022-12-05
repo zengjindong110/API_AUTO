@@ -4,6 +4,7 @@ from time import sleep
 
 from common.get_config_data import GetConfig
 from test_case import *
+from unittest import skip
 
 GC = GetConfig()
 customer = Customer()
@@ -16,6 +17,11 @@ cus = CustomerService()
 once_jump_landing_page_name = "一跳-小程序-加粉"
 second_jump_landing_page_name = "二跳-H5-二维码"
 
+once_jump_landing_page_name03 = "一跳-手动-->原生加粉小程序"
+second_jump_landing_page_name03 = "二跳--加粉二维码小程序原生"
+
+once_jump_landing_page_name04 = "一跳-自动-->旧组件二维码"
+second_jump_landing_page_name04 = "二跳--旧组件二维码"
 
 # click_id = GC.splicing_click_id()
 click_id = {}
@@ -62,18 +68,49 @@ class VisitLandingPageJumpUrl(unittest.TestCase, RequestApi, AddFriend):
         # 第二次获取落地页列表数据
         landing_page_table.applet_add_friend_after(once_jump_landing_page_name, second_jump_landing_page_name)
 
+    @skip("跳过")
     def test_02_douying_applet_add_friend(self):
         """
         抖音原生页跳转到小程序添加好友
         """
         # 获取落地页列表一跳页二跳页访问前的数据，传入落地页名称
         landing_page_table.applet_add_friend_before(once_jump_landing_page_name, second_jump_landing_page_name)
-        land_page_url = "https://dbq.asptest.yiye-a.com/site/dbq/slLPIPXr/97bc?lynx_enable=1&adid=__AID__&creativeid=__CID__&creativetype=__CTYPE__" + click_id["params"]
+        land_page_url = "https://dbq.asptest.yiye-a.com/site/dbq/slLPIPXr/97bc?lynx_enable=1&adid=__AID__&creativeid=__CID__&creativetype=__CTYPE__" + \
+                        click_id["params"]
         global start_time
         start_time = GC.now_date()
         self.h5_applet_add(land_page_url)
         # 第二次获取落地页列表数据
-        landing_page_table.applet_add_friend_after(once_jump_landing_page_name, second_jump_landing_page_name)
+        landing_page_table.applet_add_friend_after(once_jump_landing_page_name03, second_jump_landing_page_name)
+
+
+    def test_03_H5_tenxun_applet(self):
+        """
+        H5跳转到腾讯原生小程序页面添加好友
+        """
+        # 获取落地页列表一跳页二跳页访问前的数据，传入落地页名称
+        landing_page_table.applet_add_friend_before(once_jump_landing_page_name03, second_jump_landing_page_name03)
+        land_page_url = "http://bbb.dbq.yiye.ai/dbq/JFDh2s5U?_cl=e7be" + \
+                        click_id["params"]
+        global start_time
+        start_time = GC.now_date()
+        self.h5_applet_add(land_page_url)
+        # 第二次获取落地页列表数据
+        landing_page_table.applet_add_friend_after(once_jump_landing_page_name03, second_jump_landing_page_name03)
+
+    def test_04_H5_jiu_QR_code(self):
+        """
+        H5跳转到旧的二维码组件添加好友
+        """
+        # 获取落地页列表一跳页二跳页访问前的数据，传入落地页名称
+        landing_page_table.applet_add_friend_before(once_jump_landing_page_name04, second_jump_landing_page_name04)
+        land_page_url = "http://bbb.dbq.yiye.ai/dbq/IC8AxBLy?_cl=5cfa" + \
+                        click_id["params"]
+        global start_time
+        start_time = GC.now_date()
+        self.h5_applet_add(land_page_url)
+        # 第二次获取落地页列表数据
+        landing_page_table.applet_add_friend_after(once_jump_landing_page_name04, second_jump_landing_page_name04)
 
 if __name__ == '__main__':
     unittest.main()
